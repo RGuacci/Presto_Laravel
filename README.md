@@ -58,15 +58,21 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
 
-<!-- ## Configurazione Google OAuth
+---
 
-1. Creare un progetto su Google Cloud.
-2. Abilitare Google Identity.
-3. Creare le credenziali OAuth 2.0.
-4. Inserire nel file `.env`:
+## Team Project
 
-GOOGLE_CLIENT_ID=...
-GOOGLE_CLIENT_SECRET=...
-GOOGLE_REDIRECT_URI=http://127.0.0.1:8000/auth/google/callback -->
+This project was developed collaboratively as part of the **Aulab Hackademy** course.
+
+The repository in this profile is a personal copy of the original team project, created for portfolio and learning purposes.
+
+### Contributors
+
+- Raffaele Guacci
+- Manuel Pierangeli
+- Daniele Pigliacelli
+- Adamo JuniorMizzoni
+
+The project was developed through collaborative work on the Laravel application, including backend development, database management, testing and other application features.
 
 
