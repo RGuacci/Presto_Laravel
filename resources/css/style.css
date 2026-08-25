@@ -1,0 +1,4876 @@
+/*
+   GUIDA RAPIDA ALLA LETTURA DEL FILE
+
+   In CSS un "selettore" (per esempio .presto-card) indica quale elemento HTML
+   deve essere modificato. Le istruzioni racchiuse tra { e } sono le proprietà
+   grafiche applicate a quell'elemento.
+
+   Alcune unità usate qui sotto:
+   - px  = pixel, una misura fissa;
+   - rem = misura proporzionale alla dimensione base del testo del browser;
+   - %   = misura proporzionale all'elemento contenitore;
+   - vw e vh = percentuale della larghezza e dell'altezza dello schermo.
+
+   Le classi che iniziano con ".presto-" appartengono a questo progetto.
+   :hover descrive un elemento sotto il puntatore, :focus-visible quello
+   selezionato da tastiera e ::before/::after creano decorazioni che non
+   richiedono altro contenuto HTML.
+*/
+
+/* =========================================================
+   COLORI RIUTILIZZABILI
+   ========================================================= */
+/*
+   :root rappresenta il livello più alto della pagina. Qui vengono definite
+   variabili CSS globali: var(--red), per esempio, richiama sempre lo stesso
+   rosso. In questo modo la palette resta coerente e si aggiorna da un solo punto.
+*/
+:root {
+    --red: #E63946;
+    --black: #292929;
+    --blue: #403DA6;
+    --turqoise: #00A699;
+    --orange: #F2BB72;
+}
+
+/* =========================================================
+   TIPOGRAFIA GENERALE
+   ========================================================= */
+/* I titoli principali condividono font, peso e una sottile ombra chiara. */
+h1, h2, h3 {
+    font-family: "Elsie", serif;
+    font-weight: 900;
+    font-style: normal;
+    text-shadow:
+        -0.4px -0.4px 0 rgba(255, 255, 255, .45),
+         0.4px -0.4px 0 rgba(255, 255, 255, .45),
+        -0.4px  0.4px 0 rgba(255, 255, 255, .45),
+         0.4px  0.4px 0 rgba(255, 255, 255, .45);
+}
+
+/* I titoli meno importanti usano un secondo font, più morbido e decorativo. */
+h4, h5, h6 {
+    font-family: "Borel", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/*
+   body è l'intera pagina: queste proprietà impostano il carattere predefinito
+   di tutti i testi che non ricevono uno stile più specifico.
+*/
+body {
+    font-family: "Edu SA Beginner", cursive;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* =========================================================
+   TIPOGRAFIA DELLA PAGINA ANNUNCI
+   ========================================================= */
+/*
+   Il simbolo + seleziona la sezione subito dopo l'hero, > limita la ricerca ai
+   figli diretti e :first-child prende soltanto il primo contenitore.
+   clamp(minimo, valore fluido, massimo) rende il testo responsivo senza farlo
+   diventare né troppo piccolo né troppo grande.
+*/
+.presto-listing-hero + section > div:first-child .presto-eyebrow {
+    font-size: clamp(1.55rem, 1.35rem + .65vw, 1.85rem);
+    color: var(--red);
+        text-shadow:
+        -0.4px -0.4px 0 rgba(75, 98, 251, 0.76),
+         0.4px -0.4px 0 rgba(75, 98, 251, 0.76),
+        -0.4px  0.4px 0 rgba(75, 98, 251, 0.76),
+         0.4px  0.4px 0 rgba(75, 98, 251, 0.76);
+}
+
+/* Titolo principale della lista: dimensione ampia, interlinea stretta e colore della palette. */
+.presto-listing-hero + section > div:first-child h2 {
+    font-size: 3.25rem ;
+    line-height: 1.1;
+    color: var(--turqoise) ;
+            text-shadow:
+        -0.4px -0.4px 0 rgba(75, 98, 251, 0.76),
+         0.4px -0.4px 0 rgba(75, 98, 251, 0.76),
+        -0.4px  0.4px 0 rgba(75, 98, 251, 0.76),
+         0.4px  0.4px 0 rgba(75, 98, 251, 0.76);
+}
+
+
+/* Testo che riassume quanti annunci vengono mostrati nella paginazione. */
+.presto-pagination .small.text-muted {
+    color: var(--orange) !important;
+    font-size: 1.5rem;
+    padding-right: 10px;
+}
+
+/* I numeri interni ereditano la stessa dimensione e vengono evidenziati in grassetto. */
+.presto-pagination .small.text-muted span {
+    color: var(--orange);
+    font-size: inherit;
+    font-weight: 700;
+}
+
+/* =========================================================
+   SFONDO E COLORI BASE DELLA PAGINA
+   ========================================================= */
+/* Contenitore generale: applica lo sfondo chiaro e il colore base del testo. */
+.presto-page {
+    background-color: #fffdf8;
+    color: var(--black);
+}
+
+/* =========================================================
+   NAVBAR
+   ========================================================= */
+/* Barra di navigazione: usa l'arancione della palette e una linea rossa inferiore. */
+.presto-navbar {
+    background-color: var(--orange);
+    border-bottom: 3px solid var(--red);
+}
+
+/*
+   Dimensioni del logo nella navbar. object-fit: contain mostra tutta l'immagine
+   senza tagliarla né deformarla, anche se il suo formato è diverso dal riquadro.
+*/
+.presto-brand-logo {
+    width: 4.25rem;
+    height: 4.25rem;
+    object-fit: contain;
+}
+
+/* Nome del sito accanto al logo. */
+.presto-brand-title {
+    color: var(--black);
+}
+
+/* Breve frase descrittiva mostrata sotto o accanto al nome del sito. */
+.presto-brand-tagline {
+    color: #fff;
+}
+
+/* Pulsante che apre e chiude il menu Bootstrap sugli schermi piccoli. */
+.presto-toggler {
+    background-color: rgba(255, 255, 255, .55);
+}
+
+/* Colore normale dei collegamenti presenti nella navigazione. */
+.presto-nav-link {
+    color: #fff;
+}
+
+/* Sfondo del collegamento relativo alla pagina che l'utente sta visitando. */
+.presto-nav-link-active {
+    background-color: rgba(255, 255, 255, .45);
+}
+
+/* =========================================================
+   ICONE
+   ========================================================= */
+/*
+   Regola comune a tutte le icone: inline-block permette di assegnare dimensioni,
+   mentre flex: 0 0 auto impedisce che un contenitore flex le schiacci o le allarghi.
+*/
+.presto-icon {
+    display: inline-block;
+    flex: 0 0 auto;
+}
+
+/* Icone dei link nella navbar. */
+.presto-icon-nav {
+    width: 1.1rem;
+    height: 1.1rem;
+}
+
+/* Variante molto piccola, utile vicino a testi secondari. */
+.presto-icon-xs {
+    width: .9rem;
+    height: .9rem;
+}
+
+/* Icona più evidente usata negli inviti all'azione. */
+.presto-icon-cta {
+    width: 1.65rem;
+    height: 1.65rem;
+}
+
+/* Frecce e icone email condividono la stessa misura. */
+.presto-icon-arrow, .presto-icon-mail {
+    width: 1.2rem;
+    height: 1.2rem;
+}
+
+/* Icone della fascia inferiore del footer. */
+.presto-icon-bottom {
+    width: 1rem;
+    height: 1rem;
+    color: var(--orange);
+}
+
+/* Icona che accompagna i nomi degli autori del progetto. */
+.presto-icon-creators {
+    width: 1.4rem;
+    height: 1.4rem;
+    color: #22d172;
+}
+
+/* =========================================================
+   PULSANTI
+   ========================================================= */
+/* Variante scura: sfondo e bordo scuri, testo bianco per un buon contrasto. */
+.presto-btn-dark {
+    background-color: var(--black);
+    border-color: var(--black);
+    color: #fff;
+}
+
+/* Variante chiara e semitrasparente, con un bordo scuro appena visibile. */
+.presto-btn-light {
+    background-color: rgba(255, 255, 255, .72);
+    border-color: rgba(41, 41, 41, .14);
+    color: var(--black);
+}
+
+/* Variante rossa destinata alle azioni principali. */
+.presto-btn-red {
+    background-color: var(--red);
+    border-color: var(--red);
+    color: #fff;
+}
+
+/* Variante turchese con testo scuro. */
+.presto-btn-turquoise {
+    background-color: var(--turqoise);
+    color: var(--black);
+}
+
+/*
+   transition rende graduali, in due decimi di secondo, i cambiamenti elencati
+   quando un elemento passa allo stato hover o focus.
+*/
+.presto-interactive {
+    transition: background-color .2s ease, border-color .2s ease, box-shadow .2s ease, color .2s ease, transform .2s ease;
+}
+
+/*
+   Contorno visibile per chi naviga con la tastiera. outline-offset lo distanzia
+   dal bordo, così il focus è chiaro senza coprire il pulsante.
+*/
+.presto-interactive:focus-visible {
+    outline: 3px solid var(--turqoise);
+    outline-offset: 3px;
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+/* Area finale della pagina: sfondo blu e testi bianchi. */
+.presto-footer {
+    background-color: var(--blue);
+    color: #fff;
+}
+
+/*
+   Riquadro di invito all'azione del footer. translateY lo solleva leggermente
+   rispetto alla sua posizione originale, creando un effetto sovrapposto.
+*/
+.presto-footer-cta {
+    background-color: var(--orange);
+    color: var(--black);
+    transform: translateY(-1rem);
+}
+
+/* Mantiene la CTA allineata alle altre colonne del footer. */
+.presto-footer-cta.presto-footer-cta-inline {
+    transform: none;
+}
+
+/* Riquadro rosso che contiene l'icona dell'invito all'azione. */
+.presto-cta-icon {
+    width: 3.5rem;
+    height: 3.5rem;
+    background-color: var(--red);
+    color: #fff;
+}
+
+/* Etichette brevi sopra i titoli: le lettere vengono distanziate con letter-spacing. */
+.presto-eyebrow, .presto-footer-heading {
+    letter-spacing: .1em;
+    color: var(--blue);
+}
+
+/* Logo del footer, contenuto interamente nel proprio riquadro senza deformazioni. */
+.presto-footer-logo {
+    width: 4.75rem;
+    height: 4.75rem;
+    object-fit: contain;
+}
+
+/* Testo descrittivo e intestazioni del footer evidenziati in arancione. */
+.presto-footer-tagline, .presto-footer-heading {
+    color: var(--orange);
+}
+
+/* Colore dell'icona che precede la località. */
+.presto-location-icon {
+    color: var(--turqoise);
+}
+
+/* Fondo bianco del gruppo composto da icona, campo email e pulsante. */
+.presto-newsletter {
+    background-color: #fff;
+    border-radius: .55rem !important;
+}
+
+/* Colore dell'icona email interna al form. */
+.presto-newsletter-icon {
+    color: var(--blue);
+}
+
+/* Linea semitrasparente che separa la parte conclusiva del footer. */
+.presto-footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, .16);
+}
+
+/* Porta la firma degli autori verso il margine destro della fascia finale. */
+.presto-footer-signature-wrap {
+    margin-left: auto;
+    justify-content: flex-end;
+    text-align: right;
+}
+
+/* Firma blu neon suddivisa in parole per creare un'onda da sinistra a destra. */
+.presto-footer-signature {
+    display: inline;
+    color: #6fe7ff;
+    font-weight: 900;
+    letter-spacing: .035em;
+    text-shadow:
+        0 0 .2rem #1f9cff,
+        0 0 .55rem #1f9cff,
+        0 0 1rem rgba(31, 156, 255, .85);
+}
+
+.presto-footer-signature > span {
+    display: inline-block;
+    transform-origin: center bottom;
+    will-change: filter, transform;
+    animation: presto-signature-wave-forward 3.6s ease-in-out infinite;
+}
+
+.presto-footer-signature > span > span {
+    display: inline-block;
+    transform-origin: center bottom;
+    will-change: filter, transform;
+    animation: presto-signature-wave-backward 3.6s ease-in-out infinite;
+}
+
+.presto-footer-signature > span:nth-child(2) { animation-delay: .07s; }
+.presto-footer-signature > span:nth-child(3) { animation-delay: .14s; }
+.presto-footer-signature > span:nth-child(4) { animation-delay: .21s; }
+.presto-footer-signature > span:nth-child(5) { animation-delay: .28s; }
+.presto-footer-signature > span:nth-child(6) { animation-delay: .35s; }
+.presto-footer-signature > span:nth-child(7) { animation-delay: .42s; }
+.presto-footer-signature > span:nth-child(8) { animation-delay: .49s; }
+.presto-footer-signature > span:nth-child(9) { animation-delay: .56s; }
+.presto-footer-signature > span:nth-child(10) { animation-delay: .63s; }
+.presto-footer-signature > span:nth-child(11) { animation-delay: .7s; }
+.presto-footer-signature > span:nth-child(12) { animation-delay: .77s; }
+
+.presto-footer-signature > span:nth-child(2) > span { animation-delay: -.07s; }
+.presto-footer-signature > span:nth-child(3) > span { animation-delay: -.14s; }
+.presto-footer-signature > span:nth-child(4) > span { animation-delay: -.21s; }
+.presto-footer-signature > span:nth-child(5) > span { animation-delay: -.28s; }
+.presto-footer-signature > span:nth-child(6) > span { animation-delay: -.35s; }
+.presto-footer-signature > span:nth-child(7) > span { animation-delay: -.42s; }
+.presto-footer-signature > span:nth-child(8) > span { animation-delay: -.49s; }
+.presto-footer-signature > span:nth-child(9) > span { animation-delay: -.56s; }
+.presto-footer-signature > span:nth-child(10) > span { animation-delay: -.63s; }
+.presto-footer-signature > span:nth-child(11) > span { animation-delay: -.7s; }
+.presto-footer-signature > span:nth-child(12) > span { animation-delay: -.77s; }
+
+@keyframes presto-signature-wave-forward {
+    0%, 100% {
+        filter: brightness(1);
+        transform: translateY(0) scale(1);
+    }
+
+    12% {
+        filter: brightness(1.65) drop-shadow(0 0 .45rem #59cfff);
+        transform: translateY(-.38rem) scale(1.07);
+    }
+
+    24% {
+        filter: brightness(1);
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes presto-signature-wave-backward {
+    0%, 72%, 92%, 100% {
+        filter: brightness(1);
+        transform: translateY(0) scale(1);
+    }
+
+    82% {
+        filter: brightness(1.65) drop-shadow(0 0 .45rem #59cfff);
+        transform: translateY(-.38rem) scale(1.07);
+    }
+}
+
+/* =========================================================
+   HERO E TESTATA DELLE PAGINE
+   ========================================================= */
+/* Gradiente chiaro condiviso dalle testate principali. */
+.presto-hero, .presto-listing-hero, .presto-create-hero {
+    background: linear-gradient(135deg, #fffdf8 0%, #fff4de 100%);
+}
+
+/* Altezza minima dell'hero della home, anche quando contiene poco testo. */
+.presto-hero {
+    min-height: 35rem;
+}
+
+/* Classe di utilità per mettere una parola in evidenza con il rosso. */
+.presto-accent {
+    color: var(--red);
+}
+
+/* Piccola etichetta introduttiva sopra un titolo. */
+.presto-eyebrow {
+    color: var(--blue);
+    letter-spacing: .14em;
+}
+
+/* Limita la larghezza del testo per mantenere righe facili da leggere. */
+.presto-hero-copy {
+    max-width: 34rem;
+}
+
+/* Barra di ricerca: larghezza massima, sfondo bianco e bordo leggero. */
+.presto-searchbar {
+    max-width: 42rem;
+    background: #fff;
+    border: 1px solid rgba(41, 41, 41, .08);
+    border-radius: .55rem !important;
+}
+
+/* Il campo può restringersi nei layout flex e lascia vedere lo sfondo del contenitore. */
+.presto-searchbar .form-control {
+    min-width: 0;
+    background: transparent;
+    font-size: 1.3rem;
+}
+
+/* Colore dell'icona dentro la barra di ricerca. */
+.presto-searchbar .presto-icon {
+    color: var(--blue);
+    width: 2rem;
+    height: 2rem;
+    flex: 0 0 auto;
+}
+
+/* Mantiene leggibile anche l'azione accanto al campo di ricerca. */
+.presto-searchbar .btn {
+    font-size: 1.15rem;
+}
+
+/* Hover dedicato all'azione di ricerca, indipendente dagli altri pulsanti rossi. */
+.presto-searchbar .presto-btn-red:hover {
+    border-color: var(--blue);
+    color: #fff;
+    background: var(--blue);
+}
+
+/*
+   Piccoli "tag" arrotondati per categorie, filtri, risultati e passaggi.
+   Un border-radius molto alto produce la classica forma a pillola.
+*/
+.presto-chip, .presto-filter-pill, .presto-results-count, .presto-create-step {
+    border: 1px solid rgba(64, 61, 166, .15);
+    border-radius: 999px;
+    padding: .45rem .9rem;
+    color: var(--blue);
+    background: rgba(255, 255, 255, .6);
+    font-size: .9rem;
+}
+
+/*
+   Card decorativa presente nella parte hero. position: relative crea il punto
+   di riferimento per le decorazioni assolute; overflow: hidden nasconde le parti
+   che escono dai bordi della card.
+*/
+.presto-hero-card {
+    position: relative;
+    overflow: hidden;
+    min-height: 25rem;
+    color: #fff;
+    background: var(--blue);
+}
+
+/* Evita che il titolo della card si allarghi troppo. */
+.presto-hero-card h2 {
+    max-width: 18rem;
+}
+
+/* Porta il contenuto davanti alle decorazioni grazie allo z-index. */
+.presto-hero-card-content {
+    z-index: 1;
+}
+
+/* Riquadro arancione dell'icona principale della card hero. */
+.presto-hero-icon {
+    width: 4rem;
+    height: 4rem;
+    color: var(--black);
+    background: var(--orange);
+    padding: 1rem;
+}
+
+/* L'SVG riempie interamente il riquadro assegnato all'icona. */
+.presto-hero-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* Cerchio decorativo posizionato liberamente all'interno della card. */
+.presto-hero-orbit {
+    position: absolute;
+    width: 18rem;
+    height: 18rem;
+    border: 1px solid rgba(255, 255, 255, .18);
+    border-radius: 50%;
+}
+
+/* Posizione del primo cerchio, parzialmente fuori dal bordo in basso a destra. */
+.presto-orbit-one {
+    right: -7rem;
+    bottom: -6rem;
+}
+
+/* Posizione leggermente diversa del secondo cerchio per creare profondità. */
+.presto-orbit-two {
+    right: -2rem;
+    bottom: -11rem;
+}
+
+/* Link testuali e link per tornare indietro, senza la sottolineatura predefinita. */
+.presto-text-link, .presto-back-link {
+    color: var(--blue);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+/* Al passaggio del mouse i link cambiano dal blu al rosso. */
+.presto-text-link:hover, .presto-back-link:hover {
+    color: var(--red);
+}
+
+/* Link di ritorno nella pagina dettaglio: dimensione e contrasto piÃ¹ visibili. */
+.presto-back-link {
+    padding: .65rem 1.1rem;
+    border: 2px solid var(--red);
+    border-radius: .55rem;
+    color: #fff;
+    background: var(--red);
+    box-shadow: 0 .45rem 1rem rgba(41, 41, 41, .16);
+    font-size: clamp(1.5rem, 1.25rem + .8vw, 2rem);
+    font-weight: 800;
+    transition: color .25s ease, background-color .25s ease, border-color .25s ease, transform .25s ease, box-shadow .25s ease;
+}
+
+.presto-back-link:hover, .presto-back-link:focus-visible {
+    border-color: #fff;
+    color: var(--blue);
+    background: #fff;
+    box-shadow: 0 .85rem 1.7rem rgba(41, 41, 41, .22);
+    transform: translateY(-2px);
+}
+
+/* L'icona eredita il colore del link e mantiene una dimensione proporzionata al testo. */
+.presto-back-link .presto-icon {
+    width: 2.2rem;
+    height: 2.2rem;
+}
+
+/* Centra il collegamento di ritorno sopra il contenuto della pagina dettaglio. */
+.presto-back-link-wrapper {
+    text-align: center;
+}
+
+/* Colore coordinato per etichetta, titolo e link presenti nell'intestazione di sezione. */
+.presto-section-heading .presto-eyebrow, .presto-section-heading h2, .presto-section-heading .presto-text-link {
+    color: var(--orange);
+}
+
+/* Titolo della lista annunci nel giallo della palette. */
+.presto-listing-title {
+    color: var(--orange);
+    font-size: clamp(2.1rem, 1.75rem + 1.1vw, 3rem);
+    font-weight: 900;
+}
+
+/* Barra della lista: risultati a sinistra, titolo al centro e categorie a destra. */
+.presto-listing-toolbar {
+    position: relative;
+    z-index: 10;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 1.25rem;
+    align-items: center;
+}
+
+.presto-listing-toolbar .presto-results-count {
+    display: inline-flex;
+    align-items: center;
+    gap: .55rem;
+    justify-self: start;
+    line-height: 1;
+}
+
+.presto-listing-toolbar .presto-listing-title {
+    justify-self: center;
+    text-align: center;
+}
+
+.presto-category-filter {
+    display: flex;
+    align-items: center;
+    justify-self: end;
+    gap: .65rem;
+}
+
+/* Menu nativo apribile che sostituisce la lunga fila delle categorie. */
+.presto-category-menu {
+    position: relative;
+    justify-self: end;
+}
+
+.presto-category-menu summary, .presto-home-view-all, .presto-category-clear {
+    display: inline-flex;
+    min-width: 8rem;
+    min-height: 3.4rem;
+    align-items: center;
+    justify-content: center;
+    gap: .55rem;
+    padding: .7rem 1.15rem;
+    border: 2px solid var(--blue);
+    border-radius: .55rem;
+    color: #fff;
+    background: var(--blue);
+    box-shadow: 0 .45rem 1rem rgba(64, 61, 166, .2);
+    font-size: 1.3rem;
+    font-weight: 900;
+    line-height: 1;
+    list-style: none;
+    cursor: pointer;
+}
+
+.presto-home-view-all {
+    text-decoration: none;
+}
+
+.presto-category-clear {
+    width: 3.4rem;
+    height: 3.4rem;
+    min-width: 3.4rem;
+    padding: 0;
+    border-color: var(--red);
+    color: #fff;
+    background: var(--red);
+    text-decoration: none;
+    transition: box-shadow .2s ease;
+}
+
+.presto-category-menu summary::-webkit-details-marker {
+    display: none;
+}
+
+.presto-category-menu summary .presto-icon, .presto-home-view-all .presto-icon, .presto-category-clear .presto-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    transition: transform .2s ease;
+}
+
+.presto-category-menu[open] summary .presto-icon {
+    transform: rotate(180deg);
+}
+
+.presto-category-menu-panel {
+    position: absolute;
+    top: calc(100% + .65rem);
+    right: 0;
+    display: grid;
+    width: min(22rem, calc(100vw - 2rem));
+    max-height: 24rem;
+    gap: .3rem;
+    padding: .75rem;
+    overflow-y: auto;
+    border: 1px solid rgba(64, 61, 166, .18);
+    border-radius: .75rem;
+    background: #fff;
+    box-shadow: 0 1rem 2.5rem rgba(41, 41, 41, .2);
+}
+
+.presto-category-menu-option {
+    width: 100%;
+    padding: .85rem 1rem;
+    border: 0;
+    border-radius: .45rem;
+    color: var(--black);
+    background: transparent;
+    font-size: 1.4rem;
+    font-weight: 800;
+    line-height: 1.25;
+    text-align: left;
+}
+
+.presto-category-menu-option:hover, .presto-category-menu-option:focus, .presto-category-menu-option.active {
+    color: var(--blue);
+    background: var(--surface-blue);
+}
+
+@media (max-width: 767.98px) {
+    .presto-listing-toolbar {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .presto-listing-toolbar .presto-listing-title {
+        grid-column: 1 / -1;
+        grid-row: 1;
+    }
+
+    .presto-listing-toolbar .presto-results-count {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    .presto-listing-toolbar > .presto-category-menu, .presto-listing-toolbar > .presto-category-filter {
+        grid-column: 2;
+        grid-row: 2;
+    }
+}
+
+@media (hover: hover) {
+    .presto-category-clear:hover {
+        box-shadow: 0 .55rem 1.15rem rgba(230, 57, 70, .28);
+    }
+}
+
+/* Il link "Vedi tutti" cresce in modo fluido in base alla larghezza dello schermo. */
+.presto-section-heading .presto-text-link {
+    font-size: clamp(1.15rem, 1rem + .45vw, 1.4rem);
+    line-height: 1.2;
+}
+
+/* em rende l'icona proporzionata alla dimensione del testo che la accompagna. */
+.presto-section-heading .presto-text-link .presto-icon {
+    width: 1.15em;
+    height: 1.15em;
+}
+
+/* Evidenzia in rosso le parti interattive dell'intestazione sotto il puntatore. */
+.presto-section-heading .presto-eyebrow:hover, .presto-section-heading h2:hover, .presto-section-heading .presto-text-link:hover {
+    color: var(--red);
+}
+
+/* =========================================================
+   CARD DEGLI ANNUNCI
+   ========================================================= */
+/*
+   Contenitore di una card annuncio. Il bordo arrotondato, lo sfondo bianco e
+   l'ombra leggera la separano visivamente dallo sfondo della pagina.
+*/
+.presto-card {
+    overflow: hidden;
+    border: 1px solid rgba(41, 41, 41, .1);
+    border-radius: 1.25rem;
+    background: #fff;
+    box-shadow: 0 .5rem 1.4rem rgba(41, 41, 41, .06);
+}
+
+/* Al passaggio del mouse la card si solleva, aumenta l'ombra e colora il bordo. */
+.presto-card:hover {
+    border-color: rgba(0, 166, 153, .55);
+    box-shadow: 0 1rem 2rem rgba(41, 41, 41, .13);
+    transform: translateY(-5px);
+}
+
+/*
+   Area dell'immagine. position: relative permette di appoggiarvi badge e pulsanti;
+   overflow: hidden taglia l'immagine quando viene ingrandita durante l'hover.
+*/
+.presto-card-media {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: #f2eadb;
+}
+
+/* Le immagini occupano tutta la larghezza e l'altezza dei rispettivi contenitori. */
+.presto-card-media img, .presto-detail-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* L'ingrandimento dell'immagine viene animato in quattro decimi di secondo. */
+.presto-card-media img {
+    display: block;
+    object-position: center;
+    transition: transform .4s ease;
+}
+
+/* Quando il puntatore è sulla card, la sua immagine viene ingrandita del 4%. */
+.presto-card:hover .presto-card-media img {
+    transform: scale(1.04);
+}
+
+/*
+   Etichetta colorata della categoria dell'annuncio. display: inline-block la fa
+   comportare come testo, ma consente di applicare spaziatura e forma a pillola.
+*/
+.presto-card-badge {
+    display: inline-block;
+    padding: .35rem .7rem;
+    border-radius: 999px;
+    color: var(--blue);
+    background: var(--orange);
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+/* Posiziona il badge nell'angolo superiore sinistro dell'immagine. */
+.presto-card-media .presto-card-badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+}
+
+/*
+   Pulsante circolare dei preferiti nell'angolo superiore destro. inline-flex e
+   le proprietà di allineamento centrano perfettamente l'icona nei due assi.
+*/
+.presto-card-favorite {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    color: var(--red);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .85);
+}
+
+/* Dimensione dell'SVG contenuto nel pulsante dei preferiti. */
+.presto-card-favorite svg {
+    width: 1.65rem;
+    height: 1.65rem;
+}
+
+/* Titolo e descrizione usano il colore principale dei testi. */
+.presto-card-title, .presto-card-text {
+    color: var(--black);
+}
+
+/* Il titolo dell'annuncio riprende il font decorativo dei titoli principali. */
+.presto-card-title {
+    font-family: "Elsie", serif;
+    font-size: 1.6rem;
+}
+
+/*
+   Prezzo nella card e nel dettaglio: testo blu e molto marcato. white-space:
+   nowrap impedisce che cifra e simbolo della valuta vadano su righe diverse.
+*/
+.presto-card-price, .presto-detail-price {
+    color: var(--blue);
+    font-weight: 900;
+    white-space: nowrap;
+}
+
+/* Dimensione specifica del prezzo quando è mostrato nella card. */
+.presto-card-price {
+    font-size: 1.4rem;
+}
+
+/*
+   Limita la descrizione a due righe. Le proprietà -webkit- creano il taglio del
+   testo, mentre overflow: hidden nasconde ciò che supera lo spazio disponibile.
+*/
+.presto-card-text {
+    display: -webkit-box;
+    overflow: hidden;
+    min-height: 2.9rem;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    font-size: 1.15rem;
+    line-height: 1.45;
+}
+
+/* Riga dei metadati: testo secondario, dimensione ridotta e separatore superiore. */
+.presto-card-meta {
+    color: #777;
+    border-top: 1px solid rgba(41, 41, 41, .1);
+    font-size: 1.05rem;
+}
+
+/* Le piccole icone dei metadati vengono colorate di turchese. */
+.presto-card-meta svg {
+    color: var(--turqoise);
+}
+
+/* Posizione dell'annuncio più grande e leggibile nella riga inferiore della card. */
+.presto-card-meta > span:first-child {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.presto-card-meta > span:first-child .presto-icon {
+    width: 1.3rem;
+    height: 1.3rem;
+}
+
+/* Stile del richiamo che invita ad aprire l'annuncio. */
+.presto-card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: .25rem;
+    padding: .4rem .7rem;
+    border: 2px solid var(--red);
+    border-radius: .55rem;
+    color: #fff;
+    background: var(--red);
+    box-shadow: 0 .35rem .8rem rgba(230, 57, 70, .24);
+    font-size: 1.35rem;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.presto-card-cta .presto-icon {
+    width: 1.35rem;
+    height: 1.35rem;
+    color: #fff;
+}
+
+/* =========================================================
+   SEZIONE FIDUCIA E STATI VUOTI
+   ========================================================= */
+/* Fascia informativa con sfondo blu e testo bianco. */
+.presto-trust-section {
+    color: #fff;
+    background: var(--blue);
+}
+
+/*
+   Numero del singolo passaggio racchiuso in un cerchio. Il layout flex serve a
+   centrare il numero sia in orizzontale sia in verticale.
+*/
+.presto-trust-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    color: var(--black);
+    background: var(--orange);
+    font-weight: 900;
+}
+
+/* Il testo descrittivo è bianco ma leggermente trasparente, quindi meno dominante. */
+.presto-trust-item p {
+    color: rgba(255, 255, 255, .72);
+}
+
+/* Il cursore comunica che il filtro è cliccabile e la transizione ne ammorbidisce i cambiamenti. */
+.presto-filter-pill {
+    cursor: pointer;
+    transition: all .2s ease;
+}
+
+/* Aspetto condiviso dal filtro sotto il mouse e dal filtro attualmente selezionato. */
+.presto-filter-pill:hover, .presto-filter-pill.active {
+    color: #fff;
+    border-color: var(--blue);
+    background: var(--blue);
+}
+
+/* Riquadro mostrato quando non esistono risultati, con bordo tratteggiato e fondo leggero. */
+.presto-empty-state {
+    color: var(--black);
+    border: 1px dashed rgba(64, 61, 166, .25);
+    background: rgba(255, 255, 255, .6);
+}
+
+/* Colore dell'icona contenuta nel messaggio senza risultati. */
+.presto-empty-state .presto-icon {
+    color: var(--turqoise);
+}
+
+/* =========================================================
+   PAGINA DETTAGLIO ANNUNCIO
+   ========================================================= */
+/*
+   Area dell'immagine grande. min(70vh, 36rem) sceglie il valore più piccolo:
+   l'immagine può seguire l'altezza dello schermo, ma non supera mai 36rem.
+*/
+.presto-detail-media {
+    height: min(70vh, 36rem);
+    background: #f2eadb;
+}
+
+/*
+   Nel carosello l'immagine resta interamente visibile: il watermark applicato
+   nell'angolo non viene ritagliato quando il formato della foto cambia.
+*/
+.presto-detail-media .presto-carousel-image {
+    object-fit: contain;
+}
+
+/* Elemento del carosello che riceve l'animazione e prepara browser a trasform e opacity. */
+.presto-carousel-frame {
+    animation: presto-carousel-fade .45s ease;
+    will-change: transform, opacity;
+}
+
+/*
+   Fotogrammi dell'animazione: l'immagine parte semitrasparente e appena ingrandita,
+   poi raggiunge opacità e scala normali.
+*/
+@keyframes presto-carousel-fade {
+    from {
+        opacity: .2;
+        transform: scale(1.02);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/*
+   Regola comune alle frecce del carosello. top: 50% e translateY(-50%) le centrano
+   verticalmente; z-index le mantiene davanti all'immagine.
+*/
+.presto-carousel-control {
+    position: absolute;
+    top: 50%;
+    width: 2.75rem;
+    height: 2.75rem;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    font-weight: 700;
+    z-index: 2;
+}
+
+/* Distanza della freccia precedente dal bordo sinistro. */
+.presto-carousel-control-prev {
+    left: 1rem;
+}
+
+/* Distanza della freccia successiva dal bordo destro. */
+.presto-carousel-control-next {
+    right: 1rem;
+}
+
+/* Contenitore semitrasparente dei piccoli indicatori del carosello. */
+.presto-carousel-dots {
+    background: rgba(255, 255, 255, .8);
+    border: 1px solid rgba(41, 41, 41, .12);
+    z-index: 2;
+}
+
+/* Indicatore inattivo: piccolo elemento arrotondato e blu trasparente. */
+.presto-carousel-dot {
+    width: .7rem;
+    height: .7rem;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(64, 61, 166, .35);
+}
+
+/* L'indicatore della foto corrente viene colorato di rosso. */
+.presto-carousel-dot.active {
+    background: var(--red);
+}
+
+/* Aspetto di base condiviso dai pannelli di dettaglio, pubblicazione e autenticazione. */
+.presto-detail-panel, .presto-form-card, .presto-auth-card {
+    border: 1px solid rgba(41, 41, 41, .1);
+    background: #fff;
+    box-shadow: 0 1rem 3rem rgba(41, 41, 41, .08);
+}
+
+/* Il prezzo nella pagina di dettaglio è più grande rispetto a quello delle card. */
+.presto-detail-price {
+    font-size: 2rem;
+}
+
+/* Sottile linea che separa gruppi di informazioni nel dettaglio. */
+.presto-detail-divider {
+    border-top: 1px solid rgba(41, 41, 41, .12);
+}
+
+/*
+   Aumenta lo spazio tra le righe. pre-line conserva gli a-capo inseriti nel testo,
+   ma continua a gestire normalmente gli spazi superflui.
+*/
+.presto-detail-description {
+    line-height: 1.7;
+    white-space: pre-line;
+}
+
+/* Avatar circolare del venditore con iniziale bianca centrata su fondo rosso. */
+.presto-seller-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    color: #fff;
+    border-radius: 50%;
+    background: var(--red);
+    font-weight: 800;
+}
+
+/* Nota di sicurezza volutamente piccola e meno evidente del contenuto principale. */
+.presto-safe-note {
+    color: #777;
+    font-size: .85rem;
+}
+
+/* Colore dell'icona accanto alla nota di sicurezza. */
+.presto-safe-note svg {
+    color: var(--turqoise);
+}
+
+/* Ruota di mezzo giro la freccia, facendola puntare nella direzione opposta. */
+.presto-arrow-back {
+    transform: rotate(180deg);
+}
+
+/* =========================================================
+   FORM DI PUBBLICAZIONE
+   ========================================================= */
+/* Margine negativo che avvicina il form alla sezione precedente. */
+.presto-form-shell {
+    margin-top: -1rem;
+}
+
+/* Riquadro arrotondato condiviso dalle icone dei form e dell'autenticazione. */
+.presto-form-icon, .presto-auth-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    padding: .8rem;
+    color: var(--black);
+    border-radius: 1rem;
+    background: var(--orange);
+}
+
+/* L'SVG occupa tutto lo spazio interno disponibile nei rispettivi riquadri. */
+.presto-form-icon svg, .presto-auth-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* Le etichette dei campi vengono rese più evidenti con il grassetto. */
+.presto-form-card .form-label {
+    font-weight: 700;
+}
+
+/* Bordo e angoli comuni a campi di testo e menu di selezione. */
+.presto-form-card .form-control, .presto-form-card .form-select, .presto-auth-card .form-control {
+    border-color: rgba(41, 41, 41, .16);
+    border-radius: .8rem;
+}
+
+/* Quando l'utente entra in un campo, bordo e alone turchesi rendono il focus visibile. */
+.presto-form-card .form-control:focus, .presto-form-card .form-select:focus, .presto-auth-card .form-control:focus {
+    border-color: var(--turqoise);
+    box-shadow: 0 0 0 .2rem rgba(0, 166, 153, .15);
+}
+
+/* Riquadro azzurro che contiene un suggerimento utile durante la compilazione. */
+.presto-form-tip {
+    color: var(--blue);
+    background: #f2f0ff;
+    font-size: .9rem;
+}
+
+/* Messaggio di operazione riuscita, riconoscibile dai colori verdi. */
+.presto-alert-success {
+    border: 1px solid rgba(0, 166, 153, .25);
+    color: #08796f;
+    background: #e9faf7;
+}
+
+.presto-alert-danger {
+    border: 1px solid #c8202d;
+    color: #fff;
+    background: linear-gradient(135deg, var(--red), #ff5965);
+    box-shadow: 0 .65rem 1.4rem rgba(230, 57, 70, .28);
+}
+
+/* Conferma della richiesta revisore mostrata immediatamente sotto la navbar. */
+.presto-revisor-notice {
+    padding: 1.35rem 1rem;
+    border-top: 2px solid rgba(255, 255, 255, .55);
+    border-bottom: 3px solid var(--turqoise);
+    color: var(--blue);
+    background: #fff;
+    box-shadow: 0 .65rem 1.5rem rgba(41, 41, 41, .16);
+    text-align: center;
+}
+
+.presto-revisor-notice p {
+    font-size: clamp(1.6rem, 1.25rem + 1.2vw, 2.5rem);
+    font-weight: 900;
+    line-height: 1.2;
+}
+
+/* =========================================================
+   DASHBOARD REVISIONE ANNUNCI
+   ========================================================= */
+.presto-revisor-page {
+    min-height: 42rem;
+    background:
+        radial-gradient(circle at 5% 10%, rgba(242, 187, 114, .22), transparent 22rem),
+        linear-gradient(145deg, rgba(24, 22, 86, .48), rgba(41, 41, 41, .58));
+}
+
+/* Estende il velo della revisione fino al bordo superiore del footer. */
+.presto-revisor-main::after {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    background:
+        radial-gradient(circle at 5% 10%, rgba(242, 187, 114, .22), transparent 22rem),
+        linear-gradient(145deg, rgba(24, 22, 86, .48), rgba(41, 41, 41, .58));
+    pointer-events: none;
+}
+
+.presto-revisor-main .presto-revisor-page {
+    background: transparent;
+}
+
+.presto-revisor-container {
+    max-width: 100rem;
+    margin: 0 auto;
+    padding: clamp(1.5rem, 2vw, 2.5rem) clamp(1rem, 3vw, 3rem);
+}
+
+.presto-revisor-header {
+    max-width: 48rem;
+    margin: 0 auto 1.5rem;
+}
+
+.presto-revisor-header .presto-eyebrow {
+    color: var(--orange);
+    font-size: clamp(1.55rem, 1.25rem + .9vw, 2.15rem);
+    line-height: 1.2;
+}
+
+.presto-revisor-header h1 {
+    color: var(--orange);
+    font-size: clamp(2.6rem, 2rem + 2vw, 4.2rem);
+}
+
+.presto-revisor-header p {
+    color: var(--orange);
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.presto-revisor-catalog-link {
+    border-color: var(--blue);
+    color: #fff;
+    background: var(--blue);
+}
+
+.presto-revisor-catalog-link:hover,
+.presto-revisor-catalog-link:focus-visible {
+    border-color: #fff;
+    color: var(--blue);
+    background: #fff;
+}
+
+.presto-revisor-feedback {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: .55rem .75rem;
+    width: fit-content;
+    max-width: calc(100% - 1.5rem);
+    margin: 0 auto 1.25rem;
+    padding: .65rem .9rem;
+    border-radius: .6rem;
+    box-shadow: 0 .5rem 1.2rem rgba(41, 41, 41, .1);
+    font-size: 1.05rem;
+    font-weight: 800;
+    text-align: center;
+}
+
+.presto-revisor-catalog-summary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .55rem;
+    width: fit-content;
+    margin: 0 auto 1.5rem;
+    padding: .6rem .9rem;
+    border: 1px solid rgba(255, 255, 255, .28);
+    border-radius: 999px;
+    color: #fff;
+    background: rgba(24, 22, 86, .35);
+    box-shadow: 0 .6rem 1.4rem rgba(24, 22, 86, .16);
+    font-size: 1.15rem;
+    font-weight: 900;
+}
+
+.presto-revisor-catalog-summary svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: var(--orange);
+}
+
+.presto-revisor-selection-form {
+    max-width: 96rem;
+    margin: 0 auto;
+}
+
+.presto-revisor-selection-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: .8rem;
+    padding: .8rem 1rem;
+    border: 1px solid rgba(255, 255, 255, .36);
+    border-radius: .75rem;
+    background: rgba(255, 255, 255, .96);
+    box-shadow: 0 .65rem 1.5rem rgba(24, 22, 86, .14);
+}
+
+.presto-revisor-selection-count {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    color: var(--blue);
+    font-size: 1.02rem;
+    font-weight: 800;
+}
+
+.presto-revisor-selection-count strong {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2rem;
+    height: 2rem;
+    padding: 0 .45rem;
+    border-radius: 999px;
+    color: #fff;
+    background: var(--blue);
+}
+
+.presto-revisor-selection-actions {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+}
+
+.presto-revisor-selection-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .45rem;
+    min-height: 2.8rem;
+    padding: .55rem .85rem;
+    border: 2px solid transparent;
+    border-radius: .55rem;
+    color: #fff;
+    font-size: .95rem;
+    font-weight: 900;
+    transition: box-shadow .2s ease, opacity .2s ease, transform .2s ease;
+}
+
+.presto-revisor-selection-action svg {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.presto-revisor-selection-reject {
+    border-color: var(--red);
+    background: var(--red);
+}
+
+.presto-revisor-selection-accept {
+    border-color: var(--turqoise);
+    background: var(--turqoise);
+}
+
+.presto-revisor-selection-action:disabled {
+    cursor: not-allowed;
+    opacity: .42;
+}
+
+.presto-revisor-selection-action:focus-visible {
+    outline: 3px solid var(--orange);
+    outline-offset: 3px;
+}
+
+.presto-revisor-table-wrapper {
+    margin: 0 auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border: 1px solid rgba(255, 255, 255, .28);
+    border-radius: 1rem;
+    background: #fff;
+    box-shadow: 0 1rem 2.4rem rgba(24, 22, 86, .2);
+}
+
+.presto-revisor-table-wrapper:focus-visible {
+    outline: 4px solid var(--orange);
+    outline-offset: 4px;
+}
+
+.presto-revisor-table {
+    width: 100%;
+    min-width: 71rem;
+    border-collapse: separate;
+    border-spacing: 0;
+    color: var(--black);
+}
+
+.presto-revisor-table thead {
+    color: #fff;
+    background: var(--blue);
+}
+
+.presto-revisor-table th {
+    padding: 1rem;
+    font-size: .95rem;
+    font-weight: 900;
+    letter-spacing: .05em;
+    text-align: left;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.presto-revisor-table th:last-child {
+    width: 7rem;
+}
+
+.presto-revisor-table-selection-heading,
+.presto-revisor-table-selection-cell {
+    width: 4rem;
+    text-align: center !important;
+}
+
+.presto-revisor-table-selection-cell {
+    color: rgba(41, 41, 41, .42);
+}
+
+.presto-revisor-table-checkbox {
+    width: 1.35rem;
+    height: 1.35rem;
+    margin: 0;
+    border: 2px solid rgba(64, 61, 166, .5);
+    border-radius: .3rem;
+    accent-color: var(--blue);
+    cursor: pointer;
+}
+
+.presto-revisor-table-checkbox:focus-visible {
+    outline: 3px solid var(--orange);
+    outline-offset: 3px;
+}
+
+.presto-revisor-table-row {
+    cursor: pointer;
+    transition: background-color .2s ease, box-shadow .2s ease;
+}
+
+.presto-revisor-table-row td {
+    padding: .85rem 1rem;
+    border-bottom: 1px solid rgba(64, 61, 166, .12);
+    background: rgba(255, 255, 255, .98);
+    font-size: 1rem;
+    font-weight: 700;
+    vertical-align: middle;
+}
+
+.presto-revisor-table-row:last-child td {
+    border-bottom: 0;
+}
+
+.presto-revisor-table-article {
+    display: flex;
+    align-items: center;
+    gap: .85rem;
+    min-width: 20rem;
+    color: inherit;
+    text-decoration: none;
+}
+
+.presto-revisor-table-article img {
+    width: 5.25rem;
+    height: 4rem;
+    flex-shrink: 0;
+    border-radius: .6rem;
+    object-fit: cover;
+    box-shadow: 0 .3rem .7rem rgba(24, 22, 86, .16);
+    transition: transform .2s ease;
+}
+
+.presto-revisor-table-article span {
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+}
+
+.presto-revisor-table-article strong {
+    max-width: 24rem;
+    overflow: hidden;
+    color: var(--blue);
+    font-size: 1.12rem;
+    line-height: 1.25;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.presto-revisor-table-article small {
+    color: rgba(41, 41, 41, .66);
+    font-size: .9rem;
+    font-weight: 700;
+}
+
+.presto-revisor-table-category {
+    color: var(--blue);
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.presto-revisor-table-price {
+    color: var(--red);
+    font-size: 1.08rem;
+    white-space: nowrap;
+}
+
+.presto-revisor-catalog-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: .42rem .7rem;
+    border-radius: 999px;
+    box-shadow: 0 .25rem .55rem rgba(24, 22, 86, .14);
+    font-size: .86rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.presto-revisor-catalog-status-pending {
+    color: var(--black);
+    background: var(--orange);
+}
+
+.presto-revisor-catalog-status-accepted {
+    color: #fff;
+    background: var(--turqoise);
+}
+
+.presto-revisor-catalog-status-rejected {
+    color: #fff;
+    background: var(--red);
+}
+
+.presto-revisor-table time {
+    color: rgba(41, 41, 41, .72);
+    white-space: nowrap;
+}
+
+.presto-revisor-table-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .4rem;
+    padding: .5rem .7rem;
+    border: 2px solid var(--blue);
+    border-radius: .55rem;
+    color: #fff;
+    background: var(--blue);
+    font-size: .92rem;
+    font-weight: 900;
+    text-decoration: none;
+    transition: border-color .2s ease, color .2s ease, background-color .2s ease, transform .2s ease;
+}
+
+.presto-revisor-table-action svg {
+    width: 1.15rem;
+    height: 1.15rem;
+}
+
+.presto-revisor-table-article:focus-visible,
+.presto-revisor-table-action:focus-visible {
+    outline: 3px solid var(--orange);
+    outline-offset: 3px;
+}
+
+.presto-revisor-table-empty-cell {
+    padding: 1.5rem !important;
+    background: rgba(255, 255, 255, .96);
+}
+
+.presto-revisor-catalog-empty {
+    width: min(100%, 48rem);
+}
+
+.presto-revisor-pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.presto-revisor-card {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(23rem, 2fr);
+    max-width: 96rem;
+    margin: 0 auto;
+    overflow: hidden;
+    border: 1px solid rgba(64, 61, 166, .12);
+    border-radius: 1.2rem;
+    background: #fff;
+    box-shadow: 0 1.4rem 3.5rem rgba(24, 22, 86, .16);
+}
+
+.presto-revisor-gallery {
+    padding: 1rem;
+    background:
+        radial-gradient(circle at 10% 10%, rgba(0, 166, 153, .25), transparent 18rem),
+        var(--blue);
+}
+
+.presto-revisor-gallery-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .75rem;
+    align-content: center;
+}
+
+.presto-revisor-gallery-grid-single > .presto-revisor-image {
+    flex: 0 1 100%;
+}
+
+.presto-revisor-gallery-grid-double > .presto-revisor-image {
+    flex: 0 1 calc((100% - .75rem) / 2);
+}
+
+.presto-revisor-gallery-grid-triple > .presto-revisor-image {
+    flex: 0 1 calc((100% - 1.5rem) / 3);
+}
+
+.presto-revisor-image {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, .6);
+    border-radius: .9rem;
+    background: rgba(255, 255, 255, .12);
+    box-shadow: 0 .65rem 1.4rem rgba(24, 22, 86, .3);
+}
+
+.presto-revisor-photo {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform .35s ease, filter .35s ease;
+}
+
+.presto-revisor-watermark {
+    position: absolute;
+    right: clamp(.45rem, 3%, .8rem);
+    bottom: clamp(.45rem, 3%, .8rem);
+    z-index: 1;
+    width: clamp(2.75rem, 24%, 5.5rem);
+    height: auto;
+    filter: drop-shadow(0 .2rem .3rem rgba(0, 0, 0, .55));
+    pointer-events: none;
+}
+
+.presto-revisor-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.25rem;
+    padding: clamp(1.25rem, 1rem + .8vw, 1.8rem);
+}
+
+.presto-revisor-status {
+    display: inline-block;
+    margin-bottom: .65rem;
+    padding: .3rem .65rem;
+    border: 1px solid transparent;
+    border-radius: .5rem;
+    font-size: 1.1rem;
+    font-weight: 900;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.presto-revisor-status-pending {
+    border-color: rgba(242, 187, 114, .5);
+    color: var(--black);
+    background: rgba(242, 187, 114, .65);
+}
+
+.presto-revisor-status-accepted {
+    border-color: rgba(0, 166, 153, .35);
+    color: #fff;
+    background: var(--turqoise);
+}
+
+.presto-revisor-status-rejected {
+    border-color: rgba(230, 57, 70, .35);
+    color: #fff;
+    background: var(--red);
+}
+
+.presto-revisor-content h2 {
+    margin-bottom: .7rem;
+    color: var(--black);
+    font-size: clamp(2rem, 1.7rem + .8vw, 2.6rem);
+    line-height: 1.12;
+}
+
+.presto-revisor-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .55rem;
+    color: rgba(41, 41, 41, .9);
+    font-size: clamp(1.2rem, 1.05rem + .4vw, 1.45rem);
+    font-weight: 800;
+}
+
+.presto-revisor-category {
+    padding: .3rem .7rem;
+    border-radius: .45rem;
+    color: var(--blue);
+    background: rgba(64, 61, 166, .14);
+    font-size: 1em;
+    font-weight: 900;
+}
+
+.presto-revisor-price {
+    margin: .85rem 0;
+    color: var(--red);
+    font-size: clamp(1.9rem, 1.65rem + .65vw, 2.35rem);
+    font-weight: 900;
+    line-height: 1;
+}
+
+.presto-revisor-description {
+    padding-top: .8rem;
+    border-top: 2px solid rgba(64, 61, 166, .1);
+}
+
+.presto-revisor-description h3 {
+    margin-bottom: .35rem;
+    color: var(--blue);
+    font-size: clamp(1.55rem, 1.35rem + .45vw, 1.9rem);
+}
+
+.presto-revisor-description p {
+    color: rgba(41, 41, 41, .94);
+    font-size: clamp(1.2rem, 1.05rem + .4vw, 1.4rem);
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.presto-revisor-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .85rem;
+}
+
+.presto-revisor-actions form {
+    display: flex;
+    flex-direction: column;
+    gap: .45rem;
+}
+
+.presto-revisor-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: .65rem .85rem;
+    border: 2px solid transparent;
+    border-radius: .5rem;
+    font-size: 1.2rem;
+    font-weight: 900;
+    transition: color .25s ease, background-color .25s ease, border-color .25s ease, transform .25s ease, box-shadow .25s ease;
+}
+
+.presto-revisor-action-label {
+    display: block;
+    color: var(--black);
+    font-size: clamp(1.35rem, 1.2rem + .45vw, 1.65rem);
+    font-weight: 900;
+    line-height: 1.2;
+    text-align: center;
+}
+
+.presto-revisor-action-icon {
+    width: 2rem;
+    height: 2rem;
+}
+
+.presto-revisor-reviewed-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .55rem;
+    padding: .8rem 1rem;
+    border: 2px solid transparent;
+    border-radius: .6rem;
+    font-size: 1.15rem;
+    font-weight: 900;
+    text-align: center;
+}
+
+.presto-revisor-reviewed-actions {
+    display: grid;
+    gap: .75rem;
+}
+
+.presto-revisor-reviewed-note svg {
+    width: 1.7rem;
+    height: 1.7rem;
+    flex-shrink: 0;
+}
+
+.presto-revisor-reviewed-note-accepted {
+    border-color: rgba(0, 166, 153, .3);
+    color: #006b62;
+    background: rgba(0, 166, 153, .12);
+}
+
+.presto-revisor-reviewed-note-rejected {
+    border-color: rgba(230, 57, 70, .3);
+    color: #a01621;
+    background: rgba(230, 57, 70, .1);
+}
+
+.presto-revisor-reject {
+    border-color: var(--red);
+    color: #fff;
+    background: var(--red);
+}
+
+.presto-revisor-accept {
+    border-color: var(--turqoise);
+    color: #fff;
+    background: var(--turqoise);
+}
+
+.presto-revisor-reopen {
+    gap: .5rem;
+    border-color: var(--orange);
+    color: var(--black);
+    background: var(--orange);
+}
+
+.presto-revisor-action.presto-revisor-reopen:hover,
+.presto-revisor-action.presto-revisor-reopen:focus,
+.presto-revisor-action.presto-revisor-reopen:active {
+    border-color: var(--orange);
+    color: var(--black);
+    background-color: var(--orange);
+}
+
+.presto-revisor-action.presto-revisor-reject:hover,
+.presto-revisor-action.presto-revisor-reject:focus,
+.presto-revisor-action.presto-revisor-reject:active {
+    border-color: var(--red);
+    color: #fff;
+    background-color: var(--red);
+}
+
+.presto-revisor-action.presto-revisor-accept:hover,
+.presto-revisor-action.presto-revisor-accept:focus,
+.presto-revisor-action.presto-revisor-accept:active {
+    border-color: var(--turqoise);
+    color: #fff;
+    background-color: var(--turqoise);
+}
+
+.presto-revisor-empty {
+    max-width: 48rem;
+    margin: 0 auto;
+    padding: clamp(2.5rem, 2rem + 2vw, 4rem);
+    border: 1px solid rgba(255, 255, 255, .4);
+    border-radius: 1rem;
+    background: var(--turqoise);
+    box-shadow: 0 1rem 2.5rem rgba(0, 166, 153, .22);
+}
+
+.presto-revisor-empty-title,
+.presto-revisor-empty h2 {
+    color: #fff;
+}
+
+.presto-revisor-empty-title {
+    display: inline-flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+    gap: .7rem;
+    font-size: clamp(2.5rem, 2rem + 1.5vw, 4rem);
+    letter-spacing: .08em;
+    line-height: 1.1;
+    white-space: nowrap;
+}
+
+.presto-revisor-empty-title-icon {
+    width: 1.05em;
+    height: 1.05em;
+    flex-shrink: 0;
+}
+
+.presto-revisor-empty h2 {
+    margin: .75rem 0 1.5rem;
+    font-size: clamp(2rem, 1.7rem + 1vw, 2.8rem);
+}
+
+.presto-revisor-home-link {
+    padding: .75rem 1.25rem;
+    border: 2px solid var(--blue);
+    border-radius: .5rem;
+    color: #fff;
+    background: var(--blue);
+    font-size: 1.15rem;
+    font-weight: 900;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .presto-revisor-table-row:hover td {
+        background: rgba(242, 187, 114, .16);
+    }
+
+    .presto-revisor-table-row:hover .presto-revisor-table-article img {
+        transform: scale(1.04);
+    }
+
+    .presto-revisor-table-action:hover {
+        border-color: var(--orange);
+        color: var(--black);
+        background: var(--orange);
+        transform: translateY(-2px);
+    }
+
+    .presto-revisor-selection-action:not(:disabled):hover {
+        box-shadow: 0 .55rem 1.1rem rgba(24, 22, 86, .2);
+        transform: translateY(-2px);
+    }
+
+    .presto-revisor-image:hover .presto-revisor-photo {
+        filter: saturate(1.08);
+        transform: scale(1.06);
+    }
+
+    .presto-revisor-reject:hover {
+        box-shadow: 0 .6rem 1.2rem rgba(230, 57, 70, .22);
+        transform: translateY(-2px);
+    }
+
+    .presto-revisor-accept:hover {
+        box-shadow: 0 .6rem 1.2rem rgba(0, 166, 153, .22);
+        transform: translateY(-2px);
+    }
+
+    .presto-revisor-reopen:hover {
+        box-shadow: 0 .6rem 1.2rem rgba(242, 187, 114, .28);
+        transform: translateY(-2px);
+    }
+
+    .presto-revisor-home-link:hover {
+        color: var(--blue);
+        background: #fff;
+        transform: translateY(-2px);
+    }
+}
+
+@media (max-width: 991.98px) {
+    .presto-revisor-card {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .presto-revisor-selection-toolbar {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .presto-revisor-selection-count {
+        justify-content: center;
+    }
+
+    .presto-revisor-selection-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .presto-revisor-selection-action {
+        width: 100%;
+    }
+
+    .presto-revisor-table-wrapper {
+        border-radius: .75rem;
+    }
+
+    .presto-revisor-empty {
+        padding: 2rem 1rem;
+    }
+
+    .presto-revisor-empty-title {
+        gap: .4rem;
+        font-size: clamp(1.7rem, 7.5vw, 2.5rem);
+        letter-spacing: .04em;
+    }
+
+    .presto-revisor-gallery {
+        padding: .8rem;
+    }
+
+    .presto-revisor-gallery-grid {
+        gap: .7rem;
+    }
+
+    .presto-revisor-gallery-grid-double > .presto-revisor-image,
+    .presto-revisor-gallery-grid-triple > .presto-revisor-image {
+        flex-basis: calc((100% - .7rem) / 2);
+    }
+
+    .presto-revisor-actions {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================================================
+   PAGINE DI AUTENTICAZIONE
+   ========================================================= */
+/* Garantisce una buona altezza anche alle pagine login e registrazione poco piene. */
+.presto-auth-page {
+    min-height: 35rem;
+}
+
+/* Variante rossa dell'icona di autenticazione. */
+.presto-auth-icon-red {
+    color: #fff;
+    background: var(--red);
+}
+
+/* Riga con testo centrale che separa il form classico dall'accesso social. */
+.presto-auth-separator {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 1.5rem 0;
+    color: #888;
+    font-size: .85rem;
+}
+
+/* Le due linee ai lati vengono create via CSS e occupano automaticamente lo spazio libero. */
+.presto-auth-separator::before, .presto-auth-separator::after {
+    content: "";
+    height: 1px;
+    flex: 1;
+    background: rgba(41, 41, 41, .15);
+}
+
+/* Aspetto neutro del pulsante di accesso con Google. */
+.presto-google-btn {
+    border: 1px solid rgba(41, 41, 41, .18);
+    color: var(--black);
+    background: #fff;
+}
+
+/* Parte evidenziata del contenuto del pulsante Google. */
+.presto-google-btn strong {
+    color: var(--red);
+    margin-right: .5rem;
+}
+
+/* =========================================================
+   CARD
+   ========================================================= */
+/*
+   Card generica alternativa: occupa lo spazio disponibile fino a 22rem e usa
+   bordo, angoli e ombra per distinguersi dallo sfondo.
+*/
+.cardCustom {
+    width: 100%;
+    max-width: 22rem;
+    background-color: #fff;
+    border: 2px solid rgba(41, 41, 41, 0.1);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 0.5rem 1rem rgba(41, 41, 41, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+/* Immagine superiore a larghezza piena; object-fit: cover la riempie senza deformarla. */
+.cardCustom .card-img-top {
+    width: 100%;
+    height: 12rem;
+    object-fit: cover;
+}
+
+/* Dispone verticalmente il contenuto interno e aggiunge spazio sui quattro lati. */
+.cardCustom .card-body {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+}
+
+/* Titolo della card generica. */
+.cardCustom .card-title {
+    color: var(--black);
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+}
+
+/* Testo descrittivo predisposto per essere contenuto e tagliato se necessario. */
+.cardCustom .card-text {
+    color: var(--black);
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* La card generica si solleva e intensifica ombra e bordo sotto il puntatore. */
+.cardCustom:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 1rem 1.5rem rgba(41, 41, 41, 0.15);
+    border-color: var(--turqoise);
+}
+
+/* =========================================================
+   CAROSELLO
+   ========================================================= */
+/*
+   Contenitore principale. isolation: isolate crea un livello indipendente così
+   lo sfondo con z-index negativo resta dietro al contenuto, senza uscire dalla sezione.
+*/
+.presto-main {
+    position: relative;
+    isolation: isolate;
+}
+
+/* Header autonomo della homepage, separato dalla sezione principale degli annunci. */
+.presto-home-header {
+    position: relative;
+    overflow: hidden;
+    background: #fffdf8;
+}
+
+/* Divisore decorativo sfumato tra l'header e il contenuto della homepage. */
+.presto-home-header::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: .45rem;
+    background: linear-gradient(90deg, var(--turqoise), var(--blue), var(--red), var(--orange));
+    box-shadow: 0 .35rem 1rem rgba(41, 41, 41, .2);
+}
+
+/* L'immagine mantiene le proprie proporzioni e occupa tutta la larghezza disponibile. */
+.presto-home-header img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* Fondo distinto per il contenuto della homepage sotto l'immagine header. */
+.presto-home-main {
+    background: var(--surface);
+}
+
+/* Area della homepage che contiene il carosello dietro agli ultimi annunci. */
+.presto-home-listings {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+/* Sfondo autonomo del carosello, limitato alla sezione degli annunci. */
+.presto-home-listings-background {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    overflow: hidden;
+}
+
+.presto-home-listings-background .carousel,
+.presto-home-listings-background .carousel-inner,
+.presto-home-listings-background .carousel-item {
+    width: 100%;
+    height: 100%;
+}
+
+.presto-home-listings-background img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Velo per mantenere leggibili titoli, link e card sopra le immagini. */
+.presto-home-listings-background .carousel-item::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(41, 41, 41, .55);
+}
+
+/* Sfondo assoluto che copre l'intera area grazie a inset: 0. */
+.presto-main-background {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    overflow: hidden;
+}
+
+/* Tutti i livelli del carosello occupano l'intera dimensione del contenitore. */
+.presto-main-background .carousel, .presto-main-background .carousel-inner, .presto-main-background .carousel-item {
+    width: 100%;
+    height: 100%;
+}
+
+/* Le immagini coprono tutto lo sfondo mantenendo le proporzioni. */
+.presto-main-background img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Velo scuro sopra ogni immagine per aumentare la leggibilità dei contenuti in primo piano. */
+.presto-main-background .carousel-item::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(41, 41, 41, .55);
+}
+
+/* Il contenuto in primo piano conserva almeno tutta l'altezza disponibile. */
+.presto-main-content {
+    min-height: 100%;
+}
+
+/*
+   Sfondo leggermente trasparente per mantenere leggibile il contenuto sopra le
+   immagini del carosello, lasciandole comunque intravedere.
+*/
+.presto-home-content, .presto-section {
+    background: rgba(255, 253, 248, .88);
+}
+
+/* Le testate di elenco e creazione usano una trasparenza maggiore. */
+.presto-listing-hero, .presto-create-hero {
+    background: rgba(255, 253, 248, .65);
+}
+
+/* =========================================================
+   HOVER MOUSE
+   ========================================================= */
+/*
+   Questa media query viene applicata solo ai dispositivi che supportano davvero
+   il passaggio del puntatore, evitando effetti scomodi sugli schermi touch.
+*/
+@media (hover: hover) {
+    /* Solleva leggermente qualunque elemento marcato come interattivo. */
+    .presto-interactive:hover {
+        transform: translateY(-2px);
+    }
+
+    /* Stato hover del pulsante scuro. */
+    .presto-btn-dark:hover {
+        background-color: var(--blue);
+        border-color: var(--black);
+        color: #fff;
+        box-shadow: 0 .5rem 1rem rgba(230, 57, 70, .28);
+    }
+
+    /* Stato hover del pulsante rosso. */
+    .presto-btn-red:hover {
+        background-color: var(--blue);
+        border-color: var(--black);
+        color: #fff;
+        box-shadow: 0 .5rem 1rem rgba(41, 41, 41, .22);
+    }
+
+    /* Stato hover del pulsante chiaro. */
+    .presto-btn-light:hover {
+        background-color: var(--blue);
+        color: #fff;
+        box-shadow: 0 .5rem 1rem rgba(41, 41, 41, .14);
+    }
+
+    /* Stato hover del pulsante turchese. */
+    .presto-btn-turquoise:hover {
+        background-color: var(--red);
+        color: var(--black);
+    }
+
+    /* Evidenzia il collegamento della navbar sotto il puntatore. */
+    .presto-nav-link:hover {
+        background-color: rgba(255, 255, 255, .7);
+        color: var(--blue);
+    }
+
+    /* I link del footer diventano arancioni; !important prevale sulle utility Bootstrap. */
+    .presto-footer-link:hover {
+        color: var(--orange) !important;
+    }
+}
+
+/* =========================================================
+    TABLET
+   ========================================================= */
+/* Le regole interne valgono per schermi larghi al massimo 991.98px. */
+@media (max-width: 991.98px) {
+    /* Aggiunge spazio sopra il menu quando Bootstrap lo mostra in forma collassata. */
+    .presto-navbar .navbar-collapse {
+        padding-top: .75rem;
+    }
+
+    /* Su tablet l'altezza dell'hero torna a dipendere dal suo contenuto. */
+    .presto-hero {
+        min-height: auto;
+    }
+
+    /* Riduce l'altezza minima della card decorativa. */
+    .presto-hero-card {
+        min-height: 20rem;
+    }
+
+    /* Diminuisce la sovrapposizione verticale del richiamo nel footer. */
+    .presto-footer-cta {
+        transform: translateY(-.75rem);
+    }
+}
+
+/* =========================================================
+   TELEFONI
+   ========================================================= */
+/* Adattamenti per smartphone larghi al massimo 575.98px. */
+@media (max-width: 575.98px) {
+    /* Riduce i grandi titoli delle testate per evitare che escano dallo schermo. */
+    .presto-hero h1, .presto-listing-hero h1, .presto-create-hero h1 {
+        font-size: 2.8rem;
+    }
+
+    /* Compatta lo spazio orizzontale del pulsante di ricerca. */
+    .presto-searchbar .btn {
+        padding-right: 1rem !important;
+        padding-left: 1rem !important;
+    }
+
+    /* Riduce anche l'immagine grande della pagina di dettaglio. */
+    .presto-detail-media {
+        height: 18rem;
+    }
+
+}
+
+/* =========================================================
+   RESTYLING RESPONSIVE GENERALE
+   ========================================================= */
+/*
+   Secondo gruppo di variabili globali dedicato a superfici, testi secondari,
+   bordi e ombre. I nomi descrivono il loro ruolo, così le stesse finiture possono
+   essere riutilizzate in componenti diversi senza ripetere valori complessi.
+*/
+:root {
+    --surface: #fffdf8;
+    --surface-soft: #fff7e8;
+    --surface-blue: #f0efff;
+    --text-muted: #66646d;
+    --border-soft: rgba(41, 41, 41, .1);
+    --shadow-sm: 0 .5rem 1.5rem rgba(41, 41, 41, .08);
+    --shadow-md: 0 1rem 2.5rem rgba(41, 41, 41, .12);
+    --shadow-blue: 0 1rem 2.5rem rgba(64, 61, 166, .2);
+}
+
+/* =========================================================
+   BASE PAGINA E ACCESSIBILITÀ
+   ========================================================= */
+/* Lo scorrimento verso un punto della stessa pagina avviene in modo graduale. */
+html {
+    scroll-behavior: smooth;
+}
+
+/*
+   Impostazioni generali del documento: impediscono una larghezza troppo stretta,
+   eliminano lo scorrimento orizzontale accidentale e migliorano la resa del testo.
+*/
+body {
+    min-width: 20rem;
+    overflow-x: hidden;
+    line-height: 1.6;
+    background: var(--surface);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+}
+
+/*
+   balance distribuisce meglio le parole dei titoli su più righe; text-shadow: none
+   rimuove l'ombra definita in precedenza quando entra in gioco questo restyling.
+*/
+h1,
+h2,
+h3 {
+    text-wrap: balance;
+    text-shadow: none;
+}
+
+/* pretty prova a evitare righe finali troppo corte nei paragrafi. */
+p {
+    text-wrap: pretty;
+}
+
+/* Anima in modo uniforme i principali elementi cliccabili e i campi dei form. */
+a, button, .btn, .form-control, .form-select {
+    transition: color .2s ease, background-color .2s ease, border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+
+/* Altezza minima e dettagli tipografici comuni a tutti i pulsanti Bootstrap. */
+.btn {
+    min-height: 2.75rem;
+    border-width: 1px;
+    letter-spacing: .01em;
+}
+
+/* Riduce la forma a pillola dei pulsanti, mantenendo circolari i controlli iconici. */
+.btn:not(.rounded-circle), button:not(.rounded-circle) {
+    border-radius: .55rem !important;
+}
+
+/* Contorno accessibile condiviso da pulsanti, link e campi raggiunti con la tastiera. */
+.btn:focus-visible, .form-control:focus-visible, .form-select:focus-visible, a:focus-visible {
+    outline: 3px solid rgba(0, 166, 153, .45);
+    outline-offset: 3px;
+}
+
+/* =========================================================
+   SFONDO GENERALE DELLA PAGINA
+   ========================================================= */
+/*
+   Sovrappone due sfumature radiali molto leggere al colore di base. In background
+   il primo livello scritto viene disegnato sopra quelli successivi.
+*/
+.presto-page {
+    background:
+        radial-gradient(circle at 8% 12%, rgba(242, 187, 114, .2), transparent 24rem),
+        radial-gradient(circle at 92% 35%, rgba(0, 166, 153, .09), transparent 28rem),
+        var(--surface);
+}
+
+/* =========================================================
+   RESTYLING NAVBAR
+   ========================================================= */
+/*
+   Versione rifinita della navbar. z-index la mantiene sopra gli altri contenuti;
+   gradienti, ombra e sfocatura creano profondità e un effetto simile al vetro.
+   Il prefisso -webkit- conserva la compatibilità con alcuni browser Apple.
+*/
+.presto-navbar {
+    z-index: 1030;
+    border-bottom: 1px solid rgba(230, 57, 70, .34);
+    background: linear-gradient(90deg, var(--turqoise), var(--blue), var(--red), var(--orange));
+    box-shadow: 0 .45rem 1.75rem rgba(41, 41, 41, .13) !important;
+    backdrop-filter: blur(16px) saturate(125%);
+    -webkit-backdrop-filter: blur(16px) saturate(125%);
+}
+
+/* Limita la larghezza interna su monitor molto ampi. */
+.presto-navbar .container {
+    max-width: 90rem;
+}
+
+/* Aggiorna dimensioni ed effetto del logo; la transizione prepara l'animazione hover. */
+.presto-brand-logo {
+    width: 3.75rem;
+    height: 3.75rem;
+    filter: drop-shadow(0 .25rem .4rem rgba(41, 41, 41, .16));
+    transition: transform .28s ease;
+}
+
+/* Logo di navbar e footer ruotano e crescono leggermente sotto il puntatore. */
+.navbar-brand:hover .presto-brand-logo, .presto-footer a:hover .presto-footer-logo {
+    transform: rotate(-360deg) scale(1.10);
+}
+
+/* Una spaziatura negativa avvicina leggermente le lettere del nome. */
+.presto-brand-title {
+    letter-spacing: -.03em;
+}
+
+/* La tagline occupa una riga propria ed usa testo piccolo e leggermente spaziato. */
+.presto-brand-tagline {
+    display: block;
+    margin-top: .3rem;
+    font-size: .88rem;
+    letter-spacing: .035em;
+}
+
+/* position: relative permette eventuali decorazioni posizionate rispetto al link. */
+.presto-nav-link {
+    position: relative;
+    color: #fff;
+}
+
+/* Dimensioni e spaziatura riservate ai soli link Home, Esplora e Come funziona. */
+.presto-navbar .navbar-nav .presto-nav-link {
+    min-height: 2.9rem;
+    padding: .7rem 1.15rem !important;
+    font-size: 1.08rem;
+    border-radius: .55rem !important;
+}
+
+/* Ingrandisce soltanto le icone SVG interne ai link principali della navbar. */
+.presto-navbar .navbar-nav .presto-nav-link svg {
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+}
+
+/* Il link attivo riceve un fondo chiaro e un sottile bordo disegnato all'interno. */
+.presto-nav-link-active {
+    background: rgba(255, 255, 255, .55);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .4);
+}
+
+/* Menu a tendina: larghezza minima, gradiente coordinato e ombra profonda. */
+.presto-navbar .dropdown-menu {
+    min-width: 13rem;
+    border: 1px solid rgba(255, 255, 255, .35) !important;
+    background: linear-gradient(135deg, var(--turqoise), var(--blue));
+    box-shadow: 0 .8rem 1.6rem rgba(24, 22, 86, .28) !important;
+}
+
+/* Aspetto normale di ogni voce nel menu a tendina. */
+.presto-navbar .dropdown-item {
+    border: 1px solid transparent;
+    color: #fff;
+    background: transparent;
+    font-weight: 700;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+    transition: color .2s ease, background .2s ease, border-color .2s ease, transform .2s ease;
+}
+
+/* La voce puntata o selezionata cambia gradiente e si sposta appena verso destra. */
+.presto-navbar .dropdown-item:hover, .presto-navbar .dropdown-item:focus {
+    border-color: rgba(255, 255, 255, .32);
+    color: #fff;
+    background: linear-gradient(135deg, var(--orange), var(--red));
+    transform: translateX(.2rem);
+}
+
+/* Colore semitrasparente della linea che separa gruppi di voci. */
+.presto-navbar .dropdown-divider {
+    border-top-color: rgba(255, 255, 255, .28);
+}
+
+/* Dimensioni e finitura del pulsante hamburger mostrato su tablet e smartphone. */
+.presto-toggler {
+    width: 2.9rem;
+    height: 2.9rem;
+    background: rgba(255, 255, 255, .72);
+    box-shadow: 0 .3rem 1rem rgba(41, 41, 41, .12) !important;
+}
+
+/* =========================================================
+   RESTYLING PULSANTI
+   ========================================================= */
+/* Peso del testo e ombra comuni a tutte le varianti principali di pulsante. */
+.presto-btn-dark, .presto-btn-red, .presto-btn-light, .presto-btn-turquoise, .presto-google-btn {
+    font-weight: 700;
+    box-shadow: 0 .35rem .9rem rgba(41, 41, 41, .1);
+}
+
+/* Conferma lo sfondo nero della variante scura. */
+.presto-btn-dark {
+    background: var(--black);
+}
+
+/* Conferma lo sfondo rosso della variante principale. */
+.presto-btn-red {
+    background: var(--red);
+}
+
+/* Rende leggermente trasparente la variante chiara. */
+.presto-btn-light {
+    background: rgba(255, 255, 255, .82);
+}
+
+/* Allinea bordo e sfondo della variante turchese. */
+.presto-btn-turquoise {
+    border-color: var(--turqoise);
+    background: var(--turqoise);
+}
+
+/* =========================================================
+   RESTYLING SFONDI, HERO E SEZIONI
+   ========================================================= */
+/* Sovrappone due gradienti al velo del carosello per una copertura più ricca e leggibile. */
+.presto-main-background .carousel-item::after {
+    background:
+        linear-gradient(180deg, rgba(41, 41, 41, .48), rgba(41, 41, 41, .66)),
+        linear-gradient(120deg, rgba(64, 61, 166, .15), rgba(0, 166, 153, .08));
+}
+
+/* Porta il contenuto principale davanti allo sfondo del carosello. */
+.presto-main-content {
+    z-index: 1;
+}
+
+/*
+   Superficie quasi opaca e sfocatura dello sfondo per le sezioni principali.
+   backdrop-filter agisce su ciò che si trova dietro l'elemento, non sul suo testo.
+*/
+.presto-home-content, .presto-section, .presto-listing-hero, .presto-create-hero {
+    background: rgba(255, 253, 248, .9);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+/* Prepara le hero a contenere decorazioni assolute e ne nasconde le parti eccedenti. */
+.presto-hero, .presto-listing-hero, .presto-create-hero {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Grande cerchio decorativo creato senza aggiungere elementi nel codice HTML. */
+.presto-hero::before, .presto-listing-hero::before, .presto-create-hero::before {
+    content: "";
+    position: absolute;
+    top: -8rem;
+    right: -7rem;
+    width: 22rem;
+    height: 22rem;
+    border-radius: 50%;
+    background: rgba(242, 187, 114, .28);
+    pointer-events: none;
+}
+
+/* Mantiene i contenuti delle hero davanti al cerchio decorativo. */
+.presto-hero > .container, .presto-listing-hero > .container, .presto-create-hero > .container {
+    position: relative;
+    z-index: 1;
+}
+
+/* Titoli principali fluidi: crescono con lo schermo entro un minimo e un massimo. */
+.presto-listing-hero h1, .presto-create-hero h1, .presto-auth-card h1, .presto-detail-panel h1 {
+    font-size: clamp(2.25rem, 5vw, 4.75rem);
+    line-height: 1.02;
+    letter-spacing: -.045em;
+}
+
+/* Rifinitura generale delle piccole etichette poste sopra i titoli. */
+.presto-eyebrow {
+    color: var(--blue);
+    font-size: .82rem;
+    letter-spacing: .15em;
+    text-shadow: none;
+}
+
+/*
+   Etichetta della hero annunci trasformata in pillola non interattiva. user-select:
+   none evita la selezione accidentale del testo e cursor: default non simula un link.
+*/
+.presto-listing-hero .presto-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: .65rem;
+    padding: .65rem 1.05rem;
+    border: 1px solid rgba(230, 57, 70, .22);
+    border-radius: 999px;
+    color: var(--blue);
+    background: linear-gradient(135deg, rgba(242, 187, 114, .38), rgba(230, 57, 70, .1));
+    box-shadow: 0 .45rem 1.1rem rgba(64, 61, 166, .12);
+    font-size: clamp(1.15rem, 1.05rem + .4vw, 1.4rem);
+    letter-spacing: .11em;
+    cursor: default;
+    user-select: none;
+}
+
+/* Pallino turchese decorativo inserito prima del testo dell'etichetta. */
+.presto-listing-hero .presto-eyebrow::before {
+    content: "";
+    width: .65rem;
+    height: .65rem;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    background: var(--turqoise);
+    box-shadow: 0 0 0 .25rem rgba(0, 166, 153, .14);
+}
+
+/* =========================================================
+   HERO DELLA CREAZIONE ANNUNCIO
+   ========================================================= */
+/*
+   Testata della pagina di creazione: altezza generosa, spaziatura verticale fluida,
+   bordo inferiore e tre livelli di sfumatura per dare profondità.
+*/
+.presto-create-hero {
+    min-height: 34rem;
+    padding-block: clamp(3.5rem, 7vw, 5.5rem) !important;
+    border-bottom: 1px solid rgba(64, 61, 166, .12);
+    background:
+        radial-gradient(circle at 88% 16%, rgba(0, 166, 153, .2), transparent 19rem),
+        radial-gradient(circle at 8% 90%, rgba(230, 57, 70, .12), transparent 20rem),
+        linear-gradient(135deg, #fffdf8, #fff0d8 58%, #f5eaff);
+}
+
+/* Secondo cerchio puramente decorativo posizionato nella parte bassa della hero. */
+.presto-create-hero::after {
+    content: "";
+    position: absolute;
+    bottom: -9rem;
+    left: 42%;
+    width: 18rem;
+    height: 18rem;
+    border: 1px solid rgba(64, 61, 166, .1);
+    border-radius: 50%;
+    box-shadow: 0 0 0 3.5rem rgba(0, 166, 153, .035);
+    pointer-events: none;
+}
+
+/* Etichetta introduttiva libera, senza aspetto da pulsante o pillola. */
+.presto-create-hero .presto-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    color: var(--blue);
+    background: transparent;
+    box-shadow: none;
+    font-size: clamp(1.05rem, .98rem + .35vw, 1.3rem);
+    letter-spacing: .11em;
+}
+
+/* Grande titolo della creazione: larghezza controllata e dimensione responsiva. */
+.presto-create-hero h1 {
+    max-width: 42rem;
+    color: var(--black);
+    font-size: clamp(3.25rem, 6.3vw, 5.6rem);
+    line-height: .98;
+    text-shadow: 0 .2rem .6rem rgba(41, 41, 41, .1);
+}
+
+/* Testo introduttivo sotto il titolo, con righe leggibili e dimensione fluida. */
+.presto-create-hero .lead {
+    max-width: 39rem;
+    color: #565460;
+    font-size: clamp(1.25rem, 1.12rem + .45vw, 1.5rem);
+    line-height: 1.55;
+}
+
+/* Timeline verticale animata dei tre passaggi per pubblicare un annuncio. */
+.presto-create-steps {
+    --create-timeline-padding: 0rem;
+    --create-timeline-node: 5.25rem;
+    --create-timeline-line: .65rem;
+    position: relative;
+    display: grid;
+    width: min(100%, 30rem);
+    gap: 4rem;
+    padding: 1rem 0;
+}
+
+/* Centra la timeline nella metà destra, speculare al testo della hero. */
+.presto-create-timeline-column {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Tracciato neutro e riempimento colorato, entrambi estesi sopra e sotto i nodi. */
+.presto-create-steps::before, .presto-create-steps::after {
+    content: "";
+    position: absolute;
+    top: -2.5rem;
+    bottom: -2.5rem;
+    left: calc(var(--create-timeline-padding) + (var(--create-timeline-node) / 2) - (var(--create-timeline-line) / 2));
+    width: var(--create-timeline-line);
+    border-radius: 999px;
+}
+
+.presto-create-steps::before {
+    background: rgba(64, 61, 166, .22);
+    box-shadow: inset 0 1px 3px rgba(41, 41, 41, .18);
+}
+
+.presto-create-steps::after {
+    background: linear-gradient(180deg, var(--red), var(--blue), var(--turqoise));
+    box-shadow: 0 0 1.2rem rgba(64, 61, 166, .35);
+    transform: scaleY(0);
+    transform-origin: center top;
+    animation: presto-create-timeline-fill 3.2s cubic-bezier(.22, 1, .36, 1) .25s forwards;
+}
+
+/* Ogni passaggio appare in sequenza quando il riempimento raggiunge il nodo. */
+.presto-create-step-item {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: var(--create-timeline-node) 1fr;
+    align-items: center;
+    gap: 1.5rem;
+    opacity: 0;
+    transform: translateX(1rem);
+    animation: presto-create-step-in .6s ease forwards;
+}
+
+.presto-create-step-item:nth-child(1) {
+    animation-delay: .35s;
+}
+
+.presto-create-step-item:nth-child(2) {
+    animation-delay: 1.45s;
+}
+
+.presto-create-step-item:nth-child(3) {
+    animation-delay: 2.55s;
+}
+
+/* Nodo circolare numerato della timeline. */
+.presto-create-step-number {
+    display: inline-flex;
+    width: var(--create-timeline-node);
+    height: var(--create-timeline-node);
+    align-items: center;
+    justify-content: center;
+    border: .4rem solid #fff;
+    border-radius: 50%;
+    color: #fff;
+    background: var(--red);
+    box-shadow:
+        0 0 0 .35rem rgba(230, 57, 70, .14),
+        0 .7rem 1.35rem rgba(41, 41, 41, .2);
+}
+
+.presto-create-step-item:nth-child(2) .presto-create-step-number {
+    background: var(--blue);
+    box-shadow:
+        0 0 0 .35rem rgba(64, 61, 166, .14),
+        0 .7rem 1.35rem rgba(41, 41, 41, .2);
+}
+
+.presto-create-step-item:nth-child(3) .presto-create-step-number {
+    background: var(--turqoise);
+    box-shadow:
+        0 0 0 .35rem rgba(0, 166, 153, .14),
+        0 .7rem 1.35rem rgba(41, 41, 41, .2);
+}
+
+.presto-create-step-number::before {
+    content: attr(data-step);
+    font-family: "Elsie", serif;
+    font-size: 2.5rem;
+    font-weight: 900;
+    line-height: 1;
+}
+
+/* Il testo di ogni passaggio resta allineato a destra del relativo nodo. */
+.presto-create-step-copy {
+    display: grid;
+    gap: .15rem;
+    text-align: left;
+}
+
+/* Etichetta "Passo": rossa, marcata, spaziata e trasformata in maiuscolo. */
+.presto-create-step-copy small {
+    color: var(--red);
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.presto-create-step-item:nth-child(2) .presto-create-step-copy small {
+    color: var(--blue);
+}
+
+.presto-create-step-item:nth-child(3) .presto-create-step-copy small {
+    color: var(--turqoise);
+}
+
+/* Nome del passaggio con dimensione fluida e interlinea compatta. */
+.presto-create-step-copy strong {
+    color: var(--blue);
+    font-size: clamp(1.65rem, 1.4rem + .7vw, 2.1rem);
+    line-height: 1.2;
+}
+
+@keyframes presto-create-timeline-fill {
+    to {
+        transform: scaleY(1);
+    }
+}
+
+@keyframes presto-create-step-in {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* =========================================================
+   LISTA ANNUNCI, RICERCA E FILTRI
+   ========================================================= */
+/* Titoli della sezione annunci: dimensione responsiva e ombra per staccarli dallo sfondo. */
+.presto-section-heading h2, .presto-listing-hero + section > div:first-child h2 {
+    color: var(--orange);
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    line-height: 1.08;
+    text-shadow: 0 .15rem .45rem rgba(41, 41, 41, .3);
+}
+
+/* Etichetta "Esplora" posta nella prima intestazione dopo la hero. */
+.presto-listing-hero + section > div:first-child .presto-eyebrow {
+    color: var(--red);
+    font-size: clamp(1.55rem, 1.35rem + .65vw, 1.85rem);
+    text-shadow: none;
+}
+
+/* Variante dell'etichetta "Esplora" con icona, gradiente e aspetto da badge non cliccabile. */
+.presto-listing-hero + section > div:first-child .presto-listing-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: .6rem;
+    padding: .6rem 1rem;
+    border: 1px solid rgba(255, 255, 255, .5);
+    border-radius: 999px;
+    color: #fff;
+    background: linear-gradient(135deg, var(--blue), var(--turqoise));
+    box-shadow: 0 .55rem 1.2rem rgba(64, 61, 166, .22);
+    letter-spacing: .09em;
+    cursor: default;
+    user-select: none;
+}
+
+/* Dimensione e spessore del tratto dell'icona accanto a "Esplora". */
+.presto-listing-eyebrow-icon {
+    width: 1.25em;
+    height: 1.25em;
+    stroke-width: 2.2;
+}
+
+/* Restyling della barra di ricerca con bordo blu tenue, fondo quasi opaco e ombra. */
+.presto-searchbar {
+    border: 1px solid rgba(64, 61, 166, .12);
+    background: rgba(255, 255, 255, .95);
+    box-shadow: var(--shadow-md) !important;
+}
+
+/* :focus-within si attiva quando qualunque campo interno riceve il focus. */
+.presto-searchbar:focus-within {
+    border-color: var(--turqoise);
+    box-shadow: 0 0 0 .25rem rgba(0, 166, 153, .12), var(--shadow-md) !important;
+}
+
+/* Finitura comune aggiornata per pillole e indicatori: fondo chiaro, ombra e testo marcato. */
+.presto-chip, .presto-filter-pill, .presto-results-count, .presto-create-step {
+    border-color: rgba(64, 61, 166, .16);
+    background: rgba(255, 255, 255, .82);
+    box-shadow: 0 .2rem .65rem rgba(41, 41, 41, .05);
+    font-weight: 700;
+}
+
+/*
+   Mantiene i filtri su un'unica riga. Se non entrano nello schermo, overflow-x:
+   auto permette di scorrerli orizzontalmente e mostra una scrollbar sottile.
+*/
+.presto-listing-hero + section > .d-flex.flex-wrap.gap-2.mb-4 {
+    flex-wrap: nowrap !important;
+    gap: .55rem !important;
+    padding-bottom: .35rem;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--orange) transparent;
+}
+
+/* Ogni filtro conserva la propria larghezza, centra il testo e impedisce gli a-capo. */
+.presto-listing-hero + section .presto-filter-pill {
+    display: inline-flex;
+    flex: 0 0 auto;
+    min-height: 3.25rem;
+    align-items: center;
+    justify-content: center;
+    padding: .7rem 1.15rem;
+    white-space: nowrap;
+    font-size: clamp(1.15rem, 1.05rem + .3vw, 1.35rem);
+}
+
+/* Badge con il numero dei risultati, allineato tramite flex e dimensionato in modo fluido. */
+.presto-listing-hero + section .presto-results-count {
+    display: inline-flex;
+    min-height: 3.4rem;
+    align-items: center;
+    gap: .55rem;
+    padding: .75rem 1.3rem;
+    font-size: clamp(1.3rem, 1.15rem + .45vw, 1.55rem);
+}
+
+/* Stesse dimensioni leggibili anche nella versione Livewire della lista. */
+.presto-filter-pill {
+    min-height: 3.25rem;
+    padding: .7rem 1.15rem;
+    font-size: clamp(1.15rem, 1.05rem + .3vw, 1.35rem);
+    font-weight: 800;
+}
+
+.presto-results-count {
+    min-height: 3.4rem;
+    padding: .75rem 1.3rem;
+    font-size: clamp(1.3rem, 1.15rem + .45vw, 1.55rem);
+    font-weight: 800;
+}
+
+/* Icona del contatore: la misura in em segue automaticamente quella del testo. */
+.presto-results-icon {
+    width: 1.15em;
+    height: 1.15em;
+    color: var(--red);
+}
+
+/* =========================================================
+   PAGINAZIONE DEGLI ANNUNCI
+   ========================================================= */
+/* Il componente di navigazione occupa tutta la larghezza disponibile. */
+.presto-pagination nav {
+    width: 100%;
+}
+
+/*
+   Pannello che contiene riepilogo e numeri di pagina. Il selettore > div prende
+   soltanto il div figlio diretto di nav, senza coinvolgere div più profondi.
+*/
+.presto-pagination nav > div {
+    width: 100%;
+    gap: 1rem;
+    padding: .9rem 1.1rem;
+    border: 1px solid rgba(64, 61, 166, .14);
+    border-radius: 1.35rem;
+    background:
+        linear-gradient(135deg, rgba(242, 187, 114, .2), rgba(0, 166, 153, .1)),
+        rgba(255, 255, 255, .94);
+    box-shadow: 0 .65rem 1.5rem rgba(64, 61, 166, .1);
+}
+
+/* Restyling del riepilogo testuale generato dalla paginazione. */
+.presto-pagination .small.text-muted {
+    padding-right: 0;
+    color: var(--blue) !important;
+    font-size: clamp(1rem, .95rem + .2vw, 1.15rem);
+}
+
+/* I numeri importanti all'interno del riepilogo vengono colorati di rosso. */
+.presto-pagination .small.text-muted span {
+    color: var(--red);
+}
+
+/* I controlli possono andare a capo, restano centrati e hanno uno spazio uniforme. */
+.presto-pagination .pagination {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .4rem;
+    margin-bottom: 0;
+}
+
+/*
+   Aspetto base di ogni numero o freccia. inline-flex centra il contenuto e le
+   dimensioni minime mantengono un'area cliccabile comoda anche sui dispositivi touch.
+*/
+.presto-pagination .page-item .page-link {
+    display: inline-flex;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    padding: .55rem .8rem;
+    border: 1px solid rgba(64, 61, 166, .16);
+    border-radius: .85rem !important;
+    color: var(--blue);
+    background: #fffdf8;
+    box-shadow: 0 .2rem .55rem rgba(41, 41, 41, .07);
+    font-weight: 800;
+    transition: color .2s ease, background .2s ease, border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+/* La pagina corrente è riconoscibile dal gradiente rosso-arancione. */
+.presto-pagination .page-item.active .page-link {
+    border-color: var(--red);
+    color: #fff;
+    background: linear-gradient(135deg, var(--red), var(--orange));
+    box-shadow: 0 .45rem 1rem rgba(230, 57, 70, .25);
+}
+
+/*
+   :not esclude pagina attiva e controlli disabilitati: soltanto i link realmente
+   utilizzabili ricevono questo effetto al passaggio del mouse.
+*/
+.presto-pagination .page-item:not(.active):not(.disabled) .page-link:hover {
+    border-color: var(--turqoise);
+    color: #fff;
+    background: linear-gradient(135deg, var(--turqoise), var(--blue));
+    box-shadow: 0 .45rem 1rem rgba(64, 61, 166, .2);
+    transform: translateY(-2px);
+}
+
+/* I controlli non disponibili appaiono sbiaditi e senza ombra. */
+.presto-pagination .page-item.disabled .page-link {
+    border-color: rgba(64, 61, 166, .08);
+    color: rgba(64, 61, 166, .42);
+    background: rgba(255, 255, 255, .55);
+    box-shadow: none;
+}
+
+/* Focus da tastiera ben visibile, senza l'ombra decorativa. */
+.presto-pagination .page-link:focus-visible {
+    outline: 3px solid rgba(0, 166, 153, .32);
+    outline-offset: 2px;
+    box-shadow: none;
+}
+
+/* Adattamenti della sola paginazione sui telefoni piccoli. */
+@media (max-width: 575.98px) {
+    /* Riduce spazi interni e arrotondamento del pannello. */
+    .presto-pagination nav > div {
+        padding: .7rem;
+        border-radius: 1rem;
+    }
+
+    /* Distribuisce "Precedente" e "Successiva" ai lati nella variante mobile di Bootstrap. */
+    .presto-pagination .d-sm-none .pagination {
+        width: 100%;
+        justify-content: space-between;
+        gap: .6rem;
+    }
+
+    /* Lascia che la larghezza segua il testo e mantiene una buona spaziatura laterale. */
+    .presto-pagination .d-sm-none .page-link {
+        min-width: auto;
+        padding-inline: 1rem;
+    }
+}
+
+/* =========================================================
+   RESTYLING CARD DEGLI ANNUNCI
+   ========================================================= */
+/*
+   Rifinitura della card già definita sopra. translateZ(0) forza un livello grafico
+   separato e può rendere più fluida l'animazione sui browser che la supportano.
+*/
+.presto-card {
+    border-color: rgba(64, 61, 166, .1);
+    border-radius: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    transform: translateZ(0);
+}
+
+/* Migliora contrasto e profondità dell'etichetta di categoria. */
+.presto-card-badge {
+    color: var(--black);
+    box-shadow: 0 .3rem .8rem rgba(41, 41, 41, .12);
+}
+
+/* Ombra e sfocatura rendono il pulsante preferiti leggibile su qualunque foto. */
+.presto-card-favorite {
+    box-shadow: 0 .3rem .9rem rgba(41, 41, 41, .16);
+    backdrop-filter: blur(6px);
+}
+
+/* Interlinea compatta per i titoli che occupano più righe. */
+.presto-card-title {
+    line-height: 1.2;
+}
+
+/* Piccolo sfondo azzurro arrotondato dietro al prezzo. */
+.presto-card-price {
+    padding: .25rem .55rem;
+    border-radius: .65rem;
+    background: var(--surface-blue);
+}
+
+/* Applica ai metadati la variabile del testo secondario. */
+.presto-card-meta {
+    color: var(--text-muted);
+}
+
+/* Rende più evidente il riquadro mostrato quando non ci sono annunci. */
+.presto-empty-state {
+    border-width: 2px;
+    background: rgba(255, 255, 255, .82);
+    box-shadow: var(--shadow-sm);
+}
+
+.presto-empty-state h3 {
+    margin-bottom: 1rem;
+    font-size: clamp(2.5rem, 2rem + 1.6vw, 3.6rem);
+    line-height: 1.1;
+}
+
+.presto-empty-state .presto-icon {
+    width: clamp(4rem, 3.4rem + 2vw, 5.5rem);
+    height: clamp(4rem, 3.4rem + 2vw, 5.5rem);
+    color: var(--blue);
+}
+
+.presto-empty-state p {
+    font-size: clamp(1.4rem, 1.2rem + .65vw, 1.85rem);
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.presto-empty-state .btn {
+    padding: .9rem 1.7rem;
+    font-size: clamp(1.35rem, 1.2rem + .45vw, 1.65rem);
+    font-weight: 900;
+}
+
+/* =========================================================
+   RESTYLING FORM, AUTENTICAZIONE E DETTAGLIO
+   ========================================================= */
+/* Pannelli quasi opachi con bordo blu tenue, ombra comune e sfocatura dello sfondo. */
+.presto-detail-panel, .presto-form-card, .presto-auth-card {
+    border-color: rgba(64, 61, 166, .1);
+    background: rgba(255, 255, 255, .96);
+    box-shadow: var(--shadow-md);
+    backdrop-filter: blur(10px);
+}
+
+/* Aggiunge spazio fluido sopra il contenitore immediatamente successivo alla hero. */
+.presto-create-hero + .container {
+    padding-top: clamp(2rem, 5vw, 4rem);
+}
+
+/* Annulla il precedente margine negativo del contenitore del form. */
+.presto-form-shell {
+    margin-top: 0;
+}
+
+/* Altezza, colore e sfondo comuni ai campi di pubblicazione, accesso e newsletter. */
+.presto-form-card .form-control, .presto-form-card .form-select, .presto-auth-card .form-control, .presto-newsletter .form-control {
+    min-height: 3rem;
+    color: var(--black);
+    background: #fffdfb;
+}
+
+/* Il campo descrizione multilinea mantiene un'altezza minima comoda. */
+.presto-form-card textarea.form-control {
+    min-height: 9rem;
+}
+
+/* Aggiunge un bordo tenue al riquadro dei suggerimenti. */
+.presto-form-tip {
+    border: 1px solid rgba(64, 61, 166, .1);
+}
+
+/* =========================================================
+   RESTYLING DELLE CARD ACCESSO E REGISTRAZIONE
+   ========================================================= */
+/*
+   La pagina di autenticazione diventa il riferimento per le decorazioni poste
+   sullo sfondo. isolation: isolate crea un livello grafico separato, così gli
+   elementi decorativi con z-index negativo non finiscono dietro all'intero sito.
+*/
+.presto-auth-page {
+    position: relative;
+    isolation: isolate;
+}
+
+/*
+   Queste due forme sono puramente decorative: ::before e ::after permettono di
+   disegnarle senza aggiungere contenuto HTML. pointer-events: none impedisce loro
+   di bloccare il mouse o il tocco sui campi del form.
+*/
+.presto-auth-page::before, .presto-auth-page::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+/* Cerchio arancione sfumato posizionato vicino all'angolo superiore sinistro. */
+.presto-auth-page::before {
+    top: 1rem;
+    left: 4%;
+    width: 15rem;
+    height: 15rem;
+    background: rgba(242, 187, 114, .2);
+    filter: blur(2px);
+}
+
+/* Anello turchese posizionato nella zona inferiore destra della pagina. */
+.presto-auth-page::after {
+    right: 3%;
+    bottom: 1rem;
+    width: 12rem;
+    height: 12rem;
+    border: 1px solid rgba(0, 166, 153, .16);
+    box-shadow: 0 0 0 2.5rem rgba(64, 61, 166, .035);
+}
+
+/* Mantiene la riga Bootstrap e quindi la card davanti alle decorazioni di sfondo. */
+.presto-auth-page > .row {
+    position: relative;
+    z-index: 1;
+}
+
+/*
+   Aspetto condiviso dalle due card. position: relative ancora le decorazioni
+   interne; overflow: hidden le taglia lungo gli angoli arrotondati. I diversi
+   gradienti creano profondità senza ridurre il contrasto dei testi.
+*/
+.presto-auth-card-login, .presto-auth-card-register, .presto-auth-card-forgot {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border: 1px solid rgba(64, 61, 166, .16);
+    background:
+        radial-gradient(circle at 100% 0, rgba(242, 187, 114, .24), transparent 16rem),
+        radial-gradient(circle at 0 100%, rgba(0, 166, 153, .1), transparent 17rem),
+        rgba(255, 255, 255, .97);
+    box-shadow:
+        0 1.65rem 3.5rem rgba(41, 41, 41, .14),
+        0 .3rem 0 rgba(64, 61, 166, .1);
+}
+
+/* Barra colorata che sottolinea visivamente la parte superiore di entrambe le card. */
+.presto-auth-card-login::before, .presto-auth-card-register::before, .presto-auth-card-forgot::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 2rem;
+    left: 2rem;
+    height: .4rem;
+    border-radius: 0 0 999px 999px;
+    background: linear-gradient(90deg, var(--turqoise), var(--blue), var(--red), var(--orange));
+}
+
+/*
+   Cerchio trasparente nell'angolo della card. Lo z-index negativo lo colloca
+   dietro al form ma, grazie a isolation, resta sopra lo sfondo della card.
+*/
+.presto-auth-card-login::after, .presto-auth-card-register::after, .presto-auth-card-forgot::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    right: -5rem;
+    bottom: -6rem;
+    width: 13rem;
+    height: 13rem;
+    border: 1px solid rgba(64, 61, 166, .1);
+    border-radius: 50%;
+    box-shadow: 0 0 0 2rem rgba(242, 187, 114, .07);
+    pointer-events: none;
+}
+
+/* Sezione introduttiva che contiene logo, titolo e breve descrizione. */
+.presto-auth-header {
+    position: relative;
+}
+
+/*
+   Cornice del logo2. inline-flex centra l'immagine nei due assi e la misura con
+   clamp cresce in modo fluido, senza diventare troppo piccola o troppo grande.
+*/
+.presto-auth-brand {
+    display: inline-flex;
+    width: clamp(6.5rem, 18vw, 8rem);
+    height: clamp(6.5rem, 18vw, 8rem);
+    align-items: center;
+    justify-content: center;
+    padding: .55rem;
+    border: 1px solid rgba(255, 255, 255, .85);
+    border-radius: 2.25rem;
+    background: linear-gradient(145deg, rgba(255, 255, 255, .98), rgba(255, 245, 226, .88));
+    box-shadow:
+        0 .9rem 1.8rem rgba(64, 61, 166, .16),
+        inset 0 0 0 1px rgba(242, 187, 114, .2);
+    transform: rotate(-360deg);
+}
+
+/* Il logo occupa tutta la cornice senza essere tagliato o deformato. */
+.presto-auth-brand img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 .35rem .45rem rgba(41, 41, 41, .15));
+    transition: transform .25s ease;
+}
+
+/* Nelle sole card di accesso e registrazione il logo resta privo di cornice ed effetti. */
+.presto-auth-card-login .presto-auth-brand, .presto-auth-card-register .presto-auth-brand {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    transform: none;
+}
+
+.presto-auth-card-login .presto-auth-brand img, .presto-auth-card-register .presto-auth-brand img {
+    filter: none;
+    transition: none;
+}
+
+/* Titolo delle card: colore della palette, righe compatte e spaziatura controllata. */
+.presto-auth-header h1 {
+    color: var(--blue);
+    font-size: clamp(2.15rem, 1.85rem + 1vw, 2.8rem);
+    line-height: 1.05;
+    letter-spacing: -.035em;
+}
+
+/* Limita la larghezza del sottotitolo per mantenere righe brevi e facili da leggere. */
+.presto-auth-header p {
+    max-width: 28rem;
+    margin-inline: auto;
+    color: var(--text-muted) !important;
+    font-size: 1.08rem;
+    line-height: 1.5;
+}
+
+/* Ogni gruppo mantiene insieme etichetta, campo ed eventuale messaggio di errore. */
+.presto-auth-field {
+    position: relative;
+}
+
+/*
+   Le etichette usano flex per allineare icona e testo. Il peso maggiore aiuta
+   l'utente a riconoscere subito quale informazione inserire nel campo sottostante.
+*/
+.presto-auth-label {
+    display: inline-flex;
+    align-items: center;
+    gap: .55rem;
+    margin-bottom: .55rem;
+    color: var(--black);
+    font-size: 1.08rem;
+    font-weight: 800;
+}
+
+/* Dimensione e colore delle icone tematiche aggiunte alle etichette dei campi. */
+.presto-auth-label-icon {
+    width: 1.15rem;
+    height: 1.15rem;
+    flex: 0 0 auto;
+    color: var(--red);
+}
+
+/*
+   Campi più alti e con bordo più visibile. inset crea un'ombra interna molto
+   leggera, utile per far percepire il campo come un'area in cui si può scrivere.
+*/
+.presto-auth-form .form-control {
+    min-height: 3.6rem;
+    padding-inline: 1.1rem;
+    border: 2px solid rgba(64, 61, 166, .13);
+    border-radius: 1rem;
+    background: rgba(255, 253, 248, .92);
+    box-shadow: inset 0 1px 2px rgba(41, 41, 41, .035);
+    font-size: 1.05rem;
+}
+
+/* Il testo di esempio nei campi usa un colore più tenue del testo digitato. */
+.presto-auth-form .form-control::placeholder {
+    color: #8a8790;
+}
+
+/* Quando un campo è attivo, bordo e alone turchesi mostrano chiaramente il focus. */
+.presto-auth-form .form-control:focus {
+    border-color: var(--turqoise);
+    background: #fff;
+    box-shadow: 0 0 0 .25rem rgba(0, 166, 153, .12);
+}
+
+/*
+   Breve rassicurazione sulla sicurezza. inline-flex mantiene scudo e testo sulla
+   stessa riga, mentre la pillola verde comunica visivamente protezione e conferma.
+*/
+.presto-auth-security {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .45rem .75rem;
+    border: 1px solid rgba(34, 209, 114, .2);
+    border-radius: 999px;
+    color: #147a45;
+    background: rgba(34, 209, 114, .08);
+    font-size: .92rem;
+    font-weight: 700;
+}
+
+/* Dimensione dello scudo mostrato nel messaggio di sicurezza. */
+.presto-auth-security-icon {
+    width: 1rem;
+    height: 1rem;
+    flex: 0 0 auto;
+    color: #22a85f;
+}
+
+/*
+   Pulsante principale più importante visivamente: dimensione generosa, testo
+   leggermente spaziato e ombra che lo separa dalla superficie della card.
+*/
+.presto-auth-submit {
+    min-height: 3.65rem;
+    border-color: transparent;
+    box-shadow: 0 .75rem 1.4rem rgba(41, 41, 41, .18);
+    font-size: 1.12rem;
+    letter-spacing: .025em;
+}
+
+/* Il pulsante Accedi usa un gradiente blu-turchese coerente con la palette. */
+.presto-auth-card-login .presto-auth-submit {
+    background: linear-gradient(135deg, var(--blue), var(--turqoise));
+}
+
+/* Il pulsante Registrati usa un gradiente rosso-arancione più caldo. */
+.presto-auth-card-register .presto-auth-submit {
+    background: linear-gradient(135deg, var(--red), var(--orange));
+}
+
+/* Recupero password: testi e controlli più grandi per migliorare la leggibilità. */
+.presto-auth-card-forgot .presto-auth-header h1 {
+    font-size: clamp(2.6rem, 2.15rem + 1.5vw, 3.5rem);
+}
+
+.presto-auth-card-forgot .presto-auth-header > p:not(.presto-forgot-eyebrow) {
+    max-width: 31rem;
+    font-size: 1.2rem;
+    line-height: 1.6;
+}
+
+.presto-forgot-eyebrow {
+    color: var(--red) !important;
+    font-size: 1rem !important;
+    letter-spacing: .13em;
+}
+
+.presto-auth-card-forgot .presto-auth-label {
+    font-size: 1.2rem;
+}
+
+.presto-auth-card-forgot .presto-auth-label-icon {
+    width: 1.3rem;
+    height: 1.3rem;
+}
+
+.presto-auth-card-forgot .form-control {
+    min-height: 4rem;
+    font-size: 1.15rem;
+}
+
+.presto-auth-card-forgot .presto-auth-submit {
+    min-height: 4rem;
+    background: linear-gradient(135deg, var(--blue), var(--turqoise));
+    font-size: 1.2rem;
+}
+
+.presto-auth-card-forgot .presto-auth-switch {
+    font-size: 1.1rem;
+}
+
+.presto-forgot-success {
+    border-color: rgba(34, 209, 114, .28);
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+/* Il testo "oppure" resta semplice e centrato tra le linee del separatore. */
+.presto-auth-separator span {
+    font-weight: 700;
+}
+
+/* Rifinitura del pulsante Google all'interno delle nuove card. */
+.presto-auth-card .presto-google-btn {
+    min-height: 3.55rem;
+    border-color: rgba(64, 61, 166, .14);
+    background: rgba(255, 255, 255, .88);
+    box-shadow: 0 .35rem .85rem rgba(41, 41, 41, .08);
+}
+
+/*
+   Variante meno importante per il recupero password: fondo azzurro tenue e testo
+   blu la distinguono sia dal pulsante Google sia dall'azione principale.
+*/
+.presto-auth-card .presto-auth-secondary-action {
+    color: var(--blue);
+    background: var(--surface-blue);
+}
+
+/* Riquadro conclusivo che accompagna il collegamento verso l'altra card di autenticazione. */
+.presto-auth-switch {
+    padding: .85rem 1rem;
+    border: 1px solid rgba(64, 61, 166, .09);
+    border-radius: 1rem;
+    background: rgba(240, 239, 255, .62);
+    font-size: 1.02rem;
+}
+
+/* Il collegamento dentro il riquadro conclusivo resta ben distinguibile in grassetto. */
+.presto-auth-switch .presto-text-link {
+    font-weight: 900;
+}
+
+/* Gli errori di validazione conservano una dimensione leggibile sotto il relativo campo. */
+.presto-auth-form .invalid-feedback {
+    margin-top: .45rem;
+    font-size: .95rem;
+    font-weight: 700;
+}
+
+/* Testi più grandi e leggibili nelle sole card di accesso e registrazione. */
+.presto-auth-card-login .presto-auth-header h1, .presto-auth-card-register .presto-auth-header h1 {
+    font-size: clamp(2.35rem, 2rem + 1.15vw, 3rem);
+}
+
+.presto-auth-card-login .presto-auth-header p, .presto-auth-card-register .presto-auth-header p {
+    font-size: 1.2rem;
+}
+
+.presto-auth-card-login .presto-auth-label, .presto-auth-card-register .presto-auth-label {
+    font-size: 1.18rem;
+}
+
+.presto-auth-card-login .presto-auth-label-icon, .presto-auth-card-register .presto-auth-label-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.presto-auth-card-login .form-control, .presto-auth-card-register .form-control {
+    font-size: 1.14rem;
+}
+
+.presto-auth-card-login .btn, .presto-auth-card-register .btn {
+    font-size: 1.16rem;
+}
+
+.presto-auth-card-login .presto-auth-separator, .presto-auth-card-register .presto-auth-separator {
+    font-size: 1rem;
+}
+
+.presto-auth-card-login .presto-auth-switch, .presto-auth-card-register .presto-auth-switch {
+    font-size: 1.12rem;
+}
+
+.presto-auth-card-register .presto-auth-security {
+    font-size: 1.02rem;
+}
+
+.presto-auth-card-login .invalid-feedback, .presto-auth-card-register .invalid-feedback {
+    font-size: 1rem;
+}
+
+/*
+   Effetti applicati solo quando il dispositivo possiede un vero puntatore: sui
+   telefoni touch non rimangono quindi stati hover attivi dopo un semplice tocco.
+*/
+@media (hover: hover) {
+    /* Il logo si raddrizza e cresce appena quando il puntatore entra nella card. */
+    .presto-auth-card-forgot:hover .presto-auth-brand img {
+        transform: scale(1.085);
+    }
+
+    /* Il pulsante principale si solleva e aumenta la propria ombra. */
+    .presto-auth-submit:hover {
+        border-color: rgba(255, 255, 255, .5);
+        color: #fff;
+        box-shadow: 0 1rem 1.7rem rgba(41, 41, 41, .22);
+        transform: translateY(-2px);
+    }
+
+    /* Il pulsante secondario diventa bianco e si solleva in modo più delicato. */
+    .presto-auth-card .presto-google-btn:hover {
+        border-color: rgba(0, 166, 153, .35);
+        color: var(--blue);
+        background: #fff;
+        transform: translateY(-2px);
+    }
+}
+
+/* Adattamenti specifici delle card di autenticazione per gli smartphone piccoli. */
+@media (max-width: 575.98px) {
+    /* Riduce lo spazio verticale della pagina senza avvicinare troppo la card ai bordi. */
+    .presto-auth-page {
+        padding-top: 1.5rem !important;
+        padding-bottom: 1.5rem !important;
+    }
+
+    /* Avvicina la barra colorata ai bordi della card, mantenendola centrata. */
+    .presto-auth-card-login::before, .presto-auth-card-register::before, .presto-auth-card-forgot::before {
+        right: 1.25rem;
+        left: 1.25rem;
+    }
+
+    /* Mantiene il titolo proporzionato allo spazio ristretto dello smartphone. */
+    .presto-auth-header h1 {
+        font-size: clamp(2rem, 10vw, 2.45rem);
+    }
+
+    /* Riduce leggermente testo e spaziatura interna dei campi. */
+    .presto-auth-form .form-control {
+        min-height: 3.4rem;
+        padding-inline: .95rem;
+        font-size: 1rem;
+    }
+
+    /* Il messaggio di sicurezza può andare a capo senza uscire dalla card. */
+    .presto-auth-security {
+        max-width: 100%;
+        white-space: normal;
+    }
+}
+
+/* =========================================================
+   CARD DI CREAZIONE DELL'ANNUNCIO
+   ========================================================= */
+/*
+   Card specifica del form di creazione. Le sfumature, il doppio livello d'ombra
+   e il bordo le danno profondità; overflow nasconde le decorazioni che oltrepassano
+   gli angoli. Il lungo selettore limita queste regole esclusivamente a questa pagina.
+*/
+.presto-create-hero + .container .presto-form-card {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(64, 61, 166, .18);
+    background:
+        radial-gradient(circle at 100% 0, rgba(242, 187, 114, .3), transparent 17rem),
+        radial-gradient(circle at 0 100%, rgba(0, 166, 153, .13), transparent 19rem),
+        linear-gradient(145deg, rgba(255, 255, 255, .98), rgba(255, 248, 237, .98));
+    box-shadow:
+        0 1.5rem 3.5rem rgba(41, 41, 41, .13),
+        0 .3rem 0 rgba(242, 187, 114, .45);
+}
+
+/* Barra multicolore decorativa inserita lungo il bordo superiore della card. */
+.presto-create-hero + .container .presto-form-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 2rem;
+    left: 2rem;
+    height: .38rem;
+    border-radius: 0 0 999px 999px;
+    background: linear-gradient(90deg, var(--turqoise), var(--blue), var(--red), var(--orange));
+}
+
+/* Intestazione centrata della card con logo, titolo e sottotitolo in colonna. */
+.presto-create-form-header {
+    position: relative;
+}
+
+.presto-create-form-logo {
+    display: inline-flex;
+    width: clamp(7rem, 16vw, 9rem);
+    height: clamp(7rem, 16vw, 9rem);
+    align-items: center;
+    justify-content: center;
+    padding: .45rem;
+    border: 1px solid rgba(64, 61, 166, .12);
+    border-radius: 2rem;
+    background: rgba(255, 255, 255, .78);
+    box-shadow: 0 .85rem 1.8rem rgba(64, 61, 166, .16);
+}
+
+.presto-create-form-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 .3rem .45rem rgba(41, 41, 41, .16));
+}
+
+/* Titolo "Dettagli dell'annuncio" più grande, blu e privo di ombra. */
+.presto-create-hero + .container .presto-form-card h2 {
+    color: var(--blue);
+    font-size: clamp(1.8rem, 1.55rem + .85vw, 2.3rem);
+    line-height: 1.15;
+    text-shadow: none;
+}
+
+/*
+   Il simbolo + prende soltanto il paragrafo immediatamente successivo al titolo,
+   ingrandendolo senza modificare gli altri paragrafi della card.
+*/
+.presto-create-hero + .container .presto-form-card h2 + p {
+    color: #5f5d68 !important;
+    font-size: 1.15rem;
+    line-height: 1.45;
+}
+
+/* Etichette dei campi più grandi e marcate per facilitarne la lettura. */
+.presto-create-hero + .container .presto-form-card .form-label {
+    margin-bottom: .6rem;
+    color: var(--black);
+    font-size: 1.22rem;
+    font-weight: 800;
+}
+
+/* Aspetto condiviso da input, select e prefissi testuali presenti nel form. */
+.presto-create-hero + .container .presto-form-card .form-control, .presto-create-hero + .container .presto-form-card .form-select, .presto-create-hero + .container .presto-form-card .input-group-text {
+    min-height: 3.65rem;
+    border-width: 2px;
+    border-color: rgba(64, 61, 166, .14);
+    color: var(--black);
+    background-color: rgba(255, 255, 255, .92);
+    font-size: 1.12rem;
+}
+
+/* Spaziatura interna riservata ai campi compilabili e ai menu di scelta. */
+.presto-create-hero + .container .presto-form-card .form-control, .presto-create-hero + .container .presto-form-card .form-select {
+    padding: .75rem 1rem;
+}
+
+/* Prefisso di un gruppo input, evidenziato con fondo arancione tenue e testo blu. */
+.presto-create-hero + .container .presto-form-card .input-group-text {
+    padding-inline: 1.05rem;
+    color: var(--blue);
+    background: rgba(242, 187, 114, .35);
+    font-size: 1.25rem;
+    font-weight: 900;
+}
+
+/* Area della descrizione più alta e con maggiore spazio tra le righe. */
+.presto-create-hero + .container .presto-form-card textarea.form-control {
+    min-height: 11rem;
+    line-height: 1.55;
+}
+
+/* Stato del campo attivo: fondo bianco, bordo turchese e alone esterno tenue. */
+.presto-create-hero + .container .presto-form-card .form-control:focus, .presto-create-hero + .container .presto-form-card .form-select:focus {
+    border-color: var(--turqoise);
+    background-color: #fff;
+    box-shadow: 0 0 0 .25rem rgba(0, 166, 153, .13);
+}
+
+/* Messaggi di validazione più leggibili sotto i campi non validi. */
+.presto-create-hero + .container .presto-form-card .invalid-feedback {
+    margin-top: .45rem;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+/* Versione più ricca del riquadro suggerimenti nella card di creazione. */
+.presto-create-hero + .container .presto-form-tip {
+    border: 1px solid rgba(64, 61, 166, .14);
+    color: var(--blue);
+    background: linear-gradient(135deg, rgba(242, 187, 114, .28), rgba(0, 166, 153, .1));
+    box-shadow: 0 .35rem .9rem rgba(64, 61, 166, .08);
+    font-size: 1.08rem;
+    line-height: 1.5;
+}
+
+/* Dimensione e colore dell'icona interna al suggerimento. */
+.presto-create-hero + .container .presto-form-tip .presto-icon {
+    width: 1.3rem;
+    height: 1.3rem;
+    color: var(--red);
+}
+
+/*
+   Pulsante rosso figlio diretto della card: gradiente, ombra e testo più grande
+   lo rendono l'azione conclusiva chiaramente riconoscibile.
+*/
+.presto-create-hero + .container .presto-form-card > .presto-btn-red {
+    border-color: transparent;
+    color: #fff;
+    background: linear-gradient(135deg, var(--red), var(--orange));
+    box-shadow: 0 .75rem 1.5rem rgba(230, 57, 70, .24);
+    font-size: 1.2rem;
+    letter-spacing: .025em;
+}
+
+/* =========================================================
+   RIFINITURE DETTAGLIO E CAROSELLO
+   ========================================================= */
+/* Bordo chiaro e ombra attorno all'immagine grande dell'annuncio. */
+.presto-detail-media {
+    border: 1px solid rgba(255, 255, 255, .45);
+    box-shadow: var(--shadow-md);
+}
+
+/* Prezzo trasformato in etichetta azzurra arrotondata. */
+.presto-detail-price {
+    display: inline-block;
+    padding: .25rem .8rem;
+    border-radius: .85rem;
+    background: var(--surface-blue);
+}
+
+/* Categoria e azione di modifica allineano icona e testo sulla stessa riga. */
+.presto-detail-category, .presto-detail-edit {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+/* Centra il pulsante di modifica sotto il carosello dell'annuncio. */
+.presto-detail-edit-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+/* Rende ben visibile l'azione di modifica sotto il carosello. */
+.presto-detail-edit {
+    gap: .7rem;
+    padding: .9rem 1.75rem;
+    font-size: clamp(1.3rem, 1.15rem + .45vw, 1.6rem);
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+/* Dimensione comune delle icone di categoria e modifica. */
+.presto-detail-category-icon, .presto-detail-edit .presto-icon {
+    width: 1.1rem;
+    height: 1.1rem;
+}
+
+.presto-detail-edit .presto-icon {
+    width: 1.65rem;
+    height: 1.65rem;
+}
+
+/* Colore rosso riservato all'icona della categoria. */
+.presto-detail-category-icon {
+    color: var(--red);
+}
+
+/* Testi più grandi e leggibili nel pannello di dettaglio dell'annuncio. */
+.presto-detail-panel .presto-eyebrow {
+    font-size: 1.2rem;
+}
+
+.presto-detail-panel h1 {
+    font-size: clamp(2.75rem, 5.5vw, 5rem);
+}
+
+.presto-detail-price {
+    padding: .4rem 1rem;
+    font-size: 2.6rem;
+}
+
+.presto-detail-category {
+    padding: .65rem 1rem;
+    font-size: 1.4rem;
+    font-weight: 800;
+}
+
+.presto-detail-category-icon {
+    width: 1.45rem;
+    height: 1.45rem;
+}
+
+.presto-detail-description {
+    font-size: 1.3rem;
+    line-height: 1.8;
+}
+
+/* Ombra dei pulsanti precedente e successivo sovrapposti alle immagini. */
+.presto-carousel-control {
+    box-shadow: 0 .4rem 1rem rgba(41, 41, 41, .18);
+}
+
+/* =========================================================
+   RESTYLING SEZIONE FIDUCIA
+   ========================================================= */
+/*
+   Fascia dei tre passaggi con gradiente blu. position e overflow preparano e
+   contengono le decorazioni, mantenendole entro i confini della sezione.
+*/
+.presto-trust-section {
+    position: relative;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 15% 20%, rgba(0, 166, 153, .22), transparent 20rem),
+        linear-gradient(135deg, #343185, var(--blue));
+}
+
+/* Timeline orizzontale dei tre passaggi. */
+.presto-timeline {
+    --timeline-node: 5.25rem;
+    --timeline-line: .65rem;
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(2rem, 6vw, 6rem);
+    padding: 1rem 0;
+}
+
+/* Tracciato neutro che collega il centro del primo e del terzo nodo. */
+.presto-timeline-track {
+    position: absolute;
+    top: calc(1rem + (var(--timeline-node) / 2) - (var(--timeline-line) / 2));
+    right: 0;
+    left: 0;
+    height: var(--timeline-line);
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .2);
+    box-shadow: inset 0 1px 3px rgba(21, 20, 67, .35);
+}
+
+/* La parte colorata si estende progressivamente lungo tutta la timeline. */
+.presto-timeline-progress {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--red), var(--blue), var(--turqoise));
+    box-shadow: 0 0 1.2rem rgba(64, 61, 166, .35);
+    transform: scaleX(0);
+    transform-origin: left center;
+    animation: presto-timeline-fill 3.2s cubic-bezier(.22, 1, .36, 1) .25s forwards;
+}
+
+/* Ogni passaggio compare quando il riempimento raggiunge il relativo nodo. */
+.presto-timeline-step {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(1rem);
+    animation: presto-timeline-step-in .6s ease forwards;
+}
+
+.presto-timeline-step:nth-of-type(1) {
+    animation-delay: .35s;
+}
+
+.presto-timeline-step:nth-of-type(2) {
+    animation-delay: 1.45s;
+}
+
+.presto-timeline-step:nth-of-type(3) {
+    animation-delay: 2.55s;
+}
+
+/* Nodo circolare della timeline: flex centra il simbolo e position ancora il numero. */
+.presto-trust-icon {
+    position: relative;
+    display: inline-flex;
+    width: var(--timeline-node);
+    height: var(--timeline-node);
+    align-items: center;
+    justify-content: center;
+    border: .4rem solid #fff;
+    border-radius: 50%;
+    color: #fff;
+    background: var(--red);
+    box-shadow:
+        0 0 0 .35rem rgba(230, 57, 70, .14),
+        0 .7rem 1.35rem rgba(41, 41, 41, .2);
+}
+
+.presto-timeline-step:nth-of-type(2) .presto-trust-icon {
+    background: var(--blue);
+    box-shadow:
+        0 0 0 .35rem rgba(64, 61, 166, .14),
+        0 .7rem 1.35rem rgba(41, 41, 41, .2);
+}
+
+.presto-timeline-step:nth-of-type(3) .presto-trust-icon {
+    background: var(--turqoise);
+    box-shadow:
+        0 0 0 .35rem rgba(0, 166, 153, .14),
+        0 .7rem 1.35rem rgba(41, 41, 41, .2);
+}
+
+/* Numero del passaggio mostrato al centro di ciascun nodo. */
+.presto-trust-icon::before {
+    content: attr(data-step);
+    color: #fff;
+    font-family: "Elsie", serif;
+    font-size: 2.5rem;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.presto-timeline-step:nth-of-type(3) .presto-trust-icon::before {
+    transform: translateY(-.2rem);
+}
+
+/* Testi descrittivi della timeline, senza pannelli o bordi da pulsante. */
+.presto-timeline-copy h3 {
+    color: #fff;
+    font-size: clamp(1.4rem, 1.2rem + .5vw, 1.75rem);
+}
+
+.presto-timeline-copy p {
+    max-width: 19rem;
+    margin-inline: auto;
+    color: rgba(255, 255, 255, .78);
+    font-size: 1.05rem;
+    line-height: 1.55;
+}
+
+@keyframes presto-timeline-fill {
+    to {
+        transform: scaleX(1);
+    }
+}
+
+@keyframes presto-timeline-step-in {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Sui telefoni la stessa sequenza procede dall'alto verso il basso. */
+@media (max-width: 767.98px) {
+    .presto-timeline {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding-left: .25rem;
+    }
+
+    .presto-timeline-track {
+        top: calc(1rem + (var(--timeline-node) / 2));
+        right: auto;
+        bottom: calc(1rem + (var(--timeline-node) / 2));
+        left: calc(.25rem + (var(--timeline-node) / 2) - (var(--timeline-line) / 2));
+        width: var(--timeline-line);
+        height: auto;
+    }
+
+    .presto-timeline-progress {
+        transform: scaleY(0);
+        transform-origin: center top;
+        animation-name: presto-timeline-fill-vertical;
+    }
+
+    .presto-timeline-step {
+        display: grid;
+        grid-template-columns: var(--timeline-node) 1fr;
+        gap: 1.25rem;
+        align-items: center;
+        text-align: left;
+        transform: translateX(1rem);
+    }
+
+    .presto-timeline-copy h3 {
+        margin-top: 0 !important;
+    }
+
+    .presto-timeline-copy p {
+        margin-inline: 0;
+    }
+}
+
+@keyframes presto-timeline-fill-vertical {
+    to {
+        transform: scaleY(1);
+    }
+}
+
+/* =========================================================
+   RESTYLING FOOTER
+   ========================================================= */
+/*
+   Footer a più livelli di gradiente. isolation e z-index permettono di collocare
+   le decorazioni dietro al testo, mentre overflow ne nasconde le parti esterne.
+*/
+.presto-footer {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 88% 8%, rgba(0, 166, 153, .3) 0, transparent 24rem),
+        radial-gradient(circle at 5% 95%, rgba(230, 57, 70, .2) 0, transparent 22rem),
+        linear-gradient(145deg, #242259 0%, #38358f 46%, var(--blue) 72%, #29266f 100%);
+}
+
+/* Proprietà comuni ai due cerchi decorativi creati senza elementi HTML aggiuntivi. */
+.presto-footer::before, .presto-footer::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+/* Grande serie di anelli concentrici posizionata sulla destra del footer. */
+.presto-footer::before {
+    top: 5rem;
+    right: -10rem;
+    width: 28rem;
+    height: 28rem;
+    border: 1px solid rgba(255, 255, 255, .12);
+    box-shadow:
+        0 0 0 3.5rem rgba(255, 255, 255, .025),
+        0 0 0 7rem rgba(255, 255, 255, .018);
+}
+
+/* Cerchio arancione trasparente nella parte inferiore sinistra. */
+.presto-footer::after {
+    bottom: -8rem;
+    left: -7rem;
+    width: 19rem;
+    height: 19rem;
+    background: rgba(242, 187, 114, .07);
+    filter: blur(2px);
+}
+
+/* Mantiene contenuto e fascia finale davanti alle decorazioni. */
+.presto-footer > .container, .presto-footer-bottom {
+    position: relative;
+    z-index: 1;
+}
+
+/* Riquadro principale del footer con gradiente, bordo chiaro e ombra blu. */
+.presto-footer-cta {
+    border: 1px solid rgba(255, 255, 255, .35);
+    background:
+        radial-gradient(circle at 90% 20%, rgba(255, 255, 255, .32), transparent 12rem),
+        var(--orange);
+    box-shadow: var(--shadow-blue) !important;
+}
+
+/* Stato normale rosso dei pulsanti Registrati, Inizia ora e Modifica annuncio. */
+.presto-navbar-register, .presto-start-now, .presto-detail-edit {
+    border-color: var(--red);
+    color: #fff;
+    background: var(--red);
+}
+
+/* Aggiunge profondità al riquadro rosso dell'icona CTA. */
+.presto-cta-icon {
+    box-shadow: 0 .5rem 1.25rem rgba(230, 57, 70, .3);
+}
+
+/* Ombra e transizione del logo; l'animazione hover è condivisa con il logo navbar. */
+.presto-footer-logo {
+    filter: drop-shadow(0 .4rem .65rem rgba(0, 0, 0, .2));
+    transition: transform .25s ease;
+}
+
+/* Dimensione di base di tutti i testi del footer. */
+.presto-footer {
+    font-size: 1.25rem;
+}
+
+/* Anche i testi marcati come piccoli restano abbastanza grandi da essere leggibili. */
+.presto-footer .small, .presto-footer small {
+    font-size: 1.08rem;
+}
+
+/* Titolo della CTA responsivo grazie a clamp. */
+.presto-footer .presto-footer-cta h2 {
+    font-size: clamp(2.25rem, 1.9rem + 1.2vw, 2.85rem);
+}
+
+/* Dimensione dell'etichetta sopra il titolo della CTA. */
+.presto-footer .presto-footer-cta .presto-eyebrow {
+    font-size: 1.18rem;
+}
+
+/* Dimensione delle intestazioni delle colonne del footer. */
+.presto-footer .presto-footer-heading {
+    font-size: 1.3rem;
+}
+
+/* Sovrascrive la utility Bootstrap fs-3 soltanto dentro il footer. */
+.presto-footer .fs-3 {
+    font-size: 2.25rem !important;
+}
+
+/* Dimensione condivisa da descrizione del marchio e collegamenti. */
+.presto-footer .presto-footer-tagline, .presto-footer .presto-footer-link {
+    font-size: 1.2rem;
+}
+
+/* Titoli che possiedono contemporaneamente l'elemento h2 e la classe h5. */
+.presto-footer h2.h5 {
+    font-size: 1.65rem;
+}
+
+/* Testo dei campi e del pulsante figlio diretto nei form del footer. */
+.presto-footer form .form-control, .presto-footer form > .presto-btn-turquoise {
+    font-size: 1.2rem;
+}
+
+/* inline-block consente al link di ricevere correttamente spazi e trasformazioni. */
+.presto-footer-link {
+    display: inline-block;
+}
+
+/* Allinea testo e freccia del pulsante candidatura mantenendoli ravvicinati. */
+.presto-revisor-request {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .35rem;
+}
+
+/* Bordo e ombra del gruppo newsletter/candidatura. */
+.presto-newsletter {
+    border: 2px solid rgba(255, 255, 255, .28);
+    box-shadow: 0 .7rem 1.5rem rgba(27, 25, 85, .25);
+}
+
+/*
+   Stile condiviso dal pulsante candidatura e dai due pulsanti principali della
+   navbar. Il selettore > limita la regola ai figli diretti indicati.
+*/
+.presto-footer form > .presto-btn-turquoise, .presto-footer .presto-revisor-request, .presto-navbar .presto-btn-dark, .presto-navbar .dropdown > .presto-btn-light {
+    border: 1px solid rgba(255, 255, 255, .35);
+    color: #fff;
+    background: linear-gradient(135deg, var(--turqoise), var(--blue));
+    box-shadow: 0 .55rem 1.15rem rgba(24, 22, 86, .25);
+    font-family: "Edu SA Beginner", cursive;
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: .025em;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+    transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+/* Dimensioni più leggibili per testo e icona del pulsante candidatura. */
+.presto-footer .presto-revisor-request {
+    font-size: 1.3rem;
+}
+
+.presto-footer .presto-revisor-request .presto-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.presto-guest-revisor-modal .modal-dialog {
+    max-width: 38rem;
+    padding: 1rem;
+}
+
+.presto-guest-revisor-modal .modal-content {
+    position: relative;
+    overflow: hidden;
+    border: 0;
+    border-radius: 1.5rem;
+    background:
+        radial-gradient(circle at 90% 10%, rgba(242, 187, 114, .28), transparent 13rem),
+        #fff;
+    box-shadow: 0 1.8rem 4.5rem rgba(24, 22, 86, .34);
+}
+
+.presto-guest-revisor-modal .modal-content::before {
+    content: "";
+    display: block;
+    height: .45rem;
+    background: linear-gradient(90deg, var(--turqoise), var(--blue), var(--red));
+}
+
+.presto-guest-revisor-modal .modal-body {
+    padding: clamp(2rem, 1.5rem + 2vw, 3.25rem);
+    text-align: center;
+}
+
+.presto-guest-revisor-modal-close {
+    position: absolute;
+    z-index: 1;
+    top: 1rem;
+    right: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    color: var(--blue);
+    background: rgba(64, 61, 166, .1);
+    transition: color .2s ease, background-color .2s ease, transform .2s ease;
+}
+
+.presto-guest-revisor-modal-close svg {
+    width: 1.55rem;
+    height: 1.55rem;
+}
+
+.presto-guest-revisor-modal-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 5rem;
+    height: 5rem;
+    margin-bottom: 1rem;
+    border-radius: 50%;
+    color: #fff;
+    background: linear-gradient(135deg, var(--turqoise), var(--blue));
+    box-shadow: 0 .8rem 1.7rem rgba(64, 61, 166, .24);
+}
+
+.presto-guest-revisor-modal-icon svg {
+    width: 2.7rem;
+    height: 2.7rem;
+}
+
+.presto-guest-revisor-modal h2 {
+    margin-bottom: .75rem;
+    color: var(--blue);
+    font-size: clamp(2rem, 1.65rem + 1vw, 2.65rem);
+}
+
+.presto-guest-revisor-modal p {
+    max-width: 30rem;
+    margin: 0 auto 1.5rem;
+    color: rgba(41, 41, 41, .82);
+    font-size: 1.18rem;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.presto-guest-revisor-modal-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .8rem;
+}
+
+.presto-guest-revisor-modal-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3.25rem;
+    padding: .7rem 1rem;
+    border: 2px solid transparent;
+    border-radius: .65rem;
+    color: #fff;
+    font-size: 1.15rem;
+    font-weight: 900;
+    text-decoration: none;
+    transition: border-color .2s ease, color .2s ease, background-color .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+
+.presto-guest-revisor-modal-login {
+    border-color: var(--blue);
+    background: var(--blue);
+}
+
+.presto-guest-revisor-modal-register {
+    border-color: var(--turqoise);
+    background: var(--turqoise);
+}
+
+.presto-guest-revisor-modal-action:focus-visible,
+.presto-guest-revisor-modal-close:focus-visible {
+    outline: 3px solid var(--orange);
+    outline-offset: 3px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .presto-guest-revisor-modal-close:hover {
+        color: #fff;
+        background: var(--red);
+        transform: rotate(8deg);
+    }
+
+    .presto-guest-revisor-modal-action:hover {
+        border-color: var(--orange);
+        color: var(--black);
+        background: var(--orange);
+        box-shadow: 0 .65rem 1.3rem rgba(242, 187, 114, .28);
+        transform: translateY(-2px);
+    }
+}
+
+@media (max-width: 575.98px) {
+    .presto-guest-revisor-modal .modal-dialog {
+        padding: .35rem;
+    }
+
+    .presto-guest-revisor-modal .modal-body {
+        padding: 2.5rem 1.25rem 1.5rem;
+    }
+
+    .presto-guest-revisor-modal-actions {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Velo scuro e trasparente dietro alla fascia conclusiva del footer. */
+.presto-footer-bottom {
+    background: rgba(26, 24, 80, .22);
+}
+
+/* =========================================================
+   EFFETTI HOVER DEL RESTYLING
+   ========================================================= */
+/* Seconda serie di hover, applicata soltanto ai dispositivi dotati di puntatore. */
+@media (hover: hover) {
+    /* Solleva card ed elementi interattivi di quattro pixel. */
+    .presto-interactive:hover, .presto-card:hover {
+        transform: translateY(-4px);
+    }
+
+    /* Il pulsante scuro diventa rosso. */
+    .presto-btn-dark:hover {
+        border-color: var(--red);
+        background: var(--red);
+        box-shadow: 0 .75rem 1.5rem rgba(230, 57, 70, .25);
+    }
+
+    /* Il pulsante rosso diventa nero. */
+    .presto-btn-red:hover {
+        border-color: var(--black);
+        background: var(--black);
+        box-shadow: 0 .75rem 1.5rem rgba(41, 41, 41, .22);
+    }
+
+    /* Il pulsante chiaro diventa bianco con testo blu. */
+    .presto-btn-light:hover {
+        border-color: rgba(64, 61, 166, .2);
+        color: var(--blue);
+        background: #fff;
+    }
+
+    /* Il pulsante turchese diventa arancione. */
+    .presto-btn-turquoise:hover {
+        border-color: var(--orange);
+        color: var(--black);
+        background: var(--orange);
+    }
+
+    /* Hover coordinato dei pulsanti speciali di footer e navbar. */
+    .presto-footer form > .presto-btn-turquoise:hover, .presto-footer .presto-revisor-request:hover, .presto-navbar .presto-btn-dark:hover, .presto-navbar .dropdown > .presto-btn-light:hover {
+        border-color: rgba(255, 255, 255, .5);
+        color: #fff;
+        background: linear-gradient(135deg, var(--orange), var(--red));
+        box-shadow: 0 .75rem 1.5rem rgba(230, 57, 70, .28);
+        transform: translateY(-2px);
+    }
+
+    /* Hover bianco con testo blu per le azioni coordinate. */
+    .presto-navbar .presto-navbar-register:hover, .presto-footer-cta .presto-start-now:hover, .presto-detail-edit:hover {
+        border-color: #fff;
+        color: var(--blue);
+        background: #fff;
+    }
+
+    /* Aumenta ulteriormente bordo e ombra della card sotto il puntatore. */
+    .presto-card:hover {
+        border-color: rgba(0, 166, 153, .45);
+        box-shadow: 0 1.25rem 2.7rem rgba(41, 41, 41, .15);
+    }
+}
+
+/* =========================================================
+   SCHERMI INTERMEDI E NAVBAR COMPATTA
+   ========================================================= */
+/*
+   Regole valide soltanto tra 992px e 1399.98px: una fascia in cui la navbar
+   desktop è ancora visibile ma ha meno spazio orizzontale.
+*/
+@media (min-width: 992px) and (max-width: 1399.98px) {
+    /* Usa tutta la larghezza e riduce lo spazio laterale del contenitore. */
+    .presto-navbar .container {
+        max-width: 100%;
+        padding-inline: 1rem;
+    }
+
+    /* Nasconde il testo accanto al logo per recuperare spazio; resta visibile il logo. */
+    .presto-navbar .navbar-brand > span {
+        display: none !important;
+    }
+
+    /* Riduce leggermente il logo. */
+    .presto-brand-logo {
+        width: 3.25rem;
+        height: 3.25rem;
+    }
+
+    /* Avvicina i link principali. */
+    .presto-navbar .navbar-nav {
+        gap: .15rem !important;
+    }
+
+    /* Compatta spaziatura e testo di link e pulsanti della navbar. */
+    .presto-navbar .nav-link, .presto-navbar .btn {
+        padding-inline: .65rem !important;
+        font-size: .82rem;
+    }
+}
+
+/* =========================================================
+   TABLET E MENU COLLASSABILE
+   ========================================================= */
+/* Da 991.98px in giù Bootstrap utilizza la versione richiudibile della navbar. */
+@media (max-width: 991.98px) {
+    /* Gradiente più adatto alla navbar impilata dei tablet. */
+    .presto-navbar {
+        background:
+            radial-gradient(circle at 4% -90%, rgba(255, 255, 255, .72) 0 6rem, transparent 15rem),
+            radial-gradient(circle at 100% 140%, rgba(0, 166, 153, .18) 0 6rem, transparent 15rem),
+            linear-gradient(125deg, rgba(255, 225, 178, .98), rgba(242, 187, 114, .98) 62%, rgba(239, 153, 126, .97));
+    }
+
+    /*
+       Pannello del menu aperto. calc sottrae l'altezza della barra dalla finestra;
+       se il contenuto è più lungo, overflow-y: auto abilita lo scorrimento verticale.
+    */
+    .presto-navbar .navbar-collapse {
+        max-height: calc(100vh - 5.5rem);
+        margin-top: .65rem;
+        padding: .75rem;
+        overflow-y: auto;
+        border: 1px solid rgba(255, 255, 255, .5);
+        border-radius: 1.25rem;
+        background: rgba(255, 253, 248, .88);
+        box-shadow: var(--shadow-md);
+        backdrop-filter: blur(16px);
+    }
+
+    /* Ogni link occupa l'intera riga, facilitando il tocco. */
+    .presto-navbar .nav-link {
+        width: 100%;
+    }
+
+    /* Distanzia il menu a tendina dal pulsante che lo apre. */
+    .presto-navbar .dropdown-menu {
+        margin-top: .5rem !important;
+    }
+
+    /* Riduce lo spostamento verso l'alto della CTA. */
+    .presto-footer-cta {
+        transform: translateY(-.5rem);
+    }
+
+    /* Riduce l'altezza massima dell'immagine di dettaglio sui tablet. */
+    .presto-detail-media {
+        height: min(60vh, 30rem);
+    }
+
+    /* Ridimensiona e sposta l'anello decorativo del footer. */
+    .presto-footer::before {
+        right: -13rem;
+        width: 24rem;
+        height: 24rem;
+    }
+}
+
+/* =========================================================
+   DISPOSITIVI MOBILI
+   ========================================================= */
+/* Adattamenti per telefoni e piccoli tablet larghi al massimo 767.98px. */
+@media (max-width: 767.98px) {
+    /* Riduce lo spazio verticale nelle principali testate e aree di pagina. */
+    .presto-listing-hero, .presto-create-hero, .presto-auth-page, .presto-main-content > main {
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+    }
+
+    /* L'altezza della hero torna ad adattarsi al contenuto. */
+    .presto-create-hero {
+        min-height: auto;
+    }
+
+    /* Separa la timeline dal testo quando le due colonne si sovrappongono. */
+    .presto-create-steps {
+        --create-timeline-node: 4.5rem;
+        gap: 3rem;
+        margin-top: 1rem;
+    }
+
+    /* Allinea in alto gli elementi dell'intestazione quando vanno su più righe. */
+    .presto-section-heading {
+        align-items: flex-start !important;
+    }
+
+    /* Riduce lo spazio superiore del footer. */
+    .presto-footer {
+        padding-top: 2.5rem !important;
+    }
+
+    /* Impila verticalmente i contenuti della CTA che prima erano affiancati. */
+    .presto-footer-cta .d-flex.align-items-start {
+        flex-direction: column;
+    }
+
+    /* Il pulsante occupa tutta la larghezza e centra il proprio contenuto. */
+    .presto-footer-cta .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* =========================================================
+   SMARTPHONE PICCOLI
+   ========================================================= */
+/* Ultime ottimizzazioni per schermi larghi al massimo 575.98px. */
+@media (max-width: 575.98px) {
+    /* Navbar più compatta, con gradiente semplificato per il piccolo formato. */
+    .presto-navbar {
+        padding-block: .35rem !important;
+        background:
+            radial-gradient(circle at 0 -120%, rgba(255, 255, 255, .7) 0 6rem, transparent 14rem),
+            linear-gradient(135deg, #f8d29a, var(--orange) 58%, #edaa85);
+    }
+
+    /* Riduce ancora il logo per lasciare spazio al pulsante menu. */
+    .presto-brand-logo {
+        width: 3.25rem;
+        height: 3.25rem;
+    }
+
+    /* I titoli seguono la larghezza del telefono ma restano tra 2rem e 3rem. */
+    .presto-listing-hero h1, .presto-create-hero h1, .presto-auth-card h1, .presto-detail-panel h1 {
+        font-size: clamp(2rem, 11vw, 3rem);
+    }
+
+    /* Permette alla barra di ricerca di andare a capo e occupare più righe. */
+    .presto-searchbar {
+        align-items: stretch !important;
+        flex-wrap: wrap;
+        border-radius: .55rem !important;
+    }
+
+    /* Centra verticalmente l'icona nella prima riga della ricerca. */
+    .presto-searchbar .presto-icon {
+        align-self: center;
+    }
+
+    /* calc assegna al campo tutta la larghezza meno lo spazio riservato all'icona. */
+    .presto-searchbar .form-control {
+        width: calc(100% - 2.5rem);
+    }
+
+    /* Il pulsante di ricerca passa su una riga completa. */
+    .presto-searchbar .btn {
+        width: 100%;
+    }
+
+    /* Riduce spazi e arrotondamento dei pannelli per sfruttare meglio lo schermo. */
+    .presto-detail-panel, .presto-form-card, .presto-auth-card {
+        padding: 1.35rem !important;
+        border-radius: 1.25rem !important;
+    }
+
+    /* Altezza e angoli dell'immagine di dettaglio su smartphone. */
+    .presto-detail-media {
+        height: 18rem;
+        border-radius: 1.25rem !important;
+    }
+
+    /* Compatta la CTA del footer. */
+    .presto-footer-cta {
+        padding: 1.5rem !important;
+        border-radius: 1.25rem !important;
+    }
+
+    /* Riduce il titolo della CTA per evitare a-capo eccessivi. */
+    .presto-footer-cta h2 {
+        font-size: 2.1rem;
+    }
+
+    /*
+       Trasforma la newsletter in una griglia: icona e campo sulla prima riga,
+       pulsante sulla seconda. auto misura l'icona, 1fr usa lo spazio rimanente.
+    */
+    .presto-newsletter {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        border-radius: .55rem !important;
+    }
+
+    /* Da colonna 1 fino all'ultima: il pulsante attraversa tutta la griglia. */
+    .presto-newsletter .btn {
+        grid-column: 1 / -1;
+        border-radius: 0;
+    }
+
+    /* Centra i testi nella fascia finale. */
+    .presto-footer-bottom .container {
+        text-align: center;
+    }
+
+    /* Gradiente del footer semplificato per il formato mobile. */
+    .presto-footer {
+        background:
+            radial-gradient(circle at 100% 8%, rgba(0, 166, 153, .22), transparent 17rem),
+            linear-gradient(160deg, #242259, var(--blue) 58%, #2c296f);
+    }
+
+    /* Riposiziona e ridimensiona il primo cerchio decorativo. */
+    .presto-footer::before {
+        top: 9rem;
+        right: -15rem;
+        width: 22rem;
+        height: 22rem;
+        box-shadow: 0 0 0 3rem rgba(255, 255, 255, .02);
+    }
+
+    /* Riposiziona e ridimensiona il secondo cerchio decorativo. */
+    .presto-footer::after {
+        bottom: -6rem;
+        left: -8rem;
+        width: 15rem;
+        height: 15rem;
+    }
+}
+
+/* =========================================================
+   RIDUZIONE DELLE ANIMAZIONI
+   ========================================================= */
+/*
+   Questa preferenza viene impostata nel sistema operativo da chi soffre il
+   movimento sullo schermo. In quel caso il sito elimina scorrimenti e animazioni
+   quasi completamente, senza rimuovere alcun contenuto.
+*/
+@media (prefers-reduced-motion: reduce) {
+    /* Disattiva lo scorrimento graduale definito all'inizio del restyling. */
+    html {
+        scroll-behavior: auto;
+    }
+
+    /*
+       * seleziona tutti gli elementi; le altre due forme includono anche le
+       decorazioni generate. !important assicura che la preferenza accessibile
+       prevalga sulle normali transizioni dei singoli componenti.
+    */
+    *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+    }
+}
+
