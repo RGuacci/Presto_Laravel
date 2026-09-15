@@ -8,12 +8,13 @@
     "nightwatch": false,
     "sail": false,
     "skills": [
+        "infer-conventions",
         "fortify-development",
         "laravel-best-practices",
+        "testing-best-practices",
         "scout-development",
         "socialite-development",
         "livewire-development",
-        "pest-testing",
         "tailwindcss-development"
     ]
 }
